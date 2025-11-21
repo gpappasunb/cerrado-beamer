@@ -1,0 +1,488 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% beamer theme based on General beamer theme
+%%
+%% Author: Georgios Pappas Jr
+%% University of Brasilia (UnB) - Brazil
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\mode<presentation>
+
+  
+%
+% Frame/slide title {{{1
+%
+% faded color in head
+% \makeatletter
+% \AtBeginDocument{%
+%   {
+%     \usebeamercolor{title in head/foot}
+%   }
+%   \pgfdeclareverticalshading{beamer@headfade}{\paperwidth}
+%   {%
+%     color(0)=(bg);
+% 	color(1cm)=(title in head/foot.bg)}
+% }
+% \makeatother
+%
+%
+% Adding a shading to the slides frametitle {{{2
+%
+% \addtoheadtemplate{\pgfuseshading{beamer@headfade}\vskip-1cm}{}
+
+
+\tcbset{
+  title/.style={ 
+    enhanced,
+    colback=black!10,
+    frame hidden,
+    halign=left,
+    boxsep=0pt,
+    boxrule=0pt,
+    sharp corners,
+    spread upwards,
+    before skip=0pt%,halign=center
+  }
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Frame title {{{1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% tcolorbox style {{{2
+% to render the frame title block
+% It uses a sidebyside layout, with a left-aligned title and a right-aligned
+% logo, with a 0.5cm (righthand width) reserve space
+\tcbset{
+  tctitle/.style={ 
+    enhanced,
+    sidebyside,
+    lower separated=false,
+    sidebyside adapt=left,
+    righthand width=0.5cm, % reserve space for a logo
+    code={% Sets the correct coloring of the elements
+        \usebeamercolor{frametitle}
+        \colorlet{frametitlebg}{frametitle.bg}
+        \colorlet{frametitlefg}{frametitle.fg}
+    },
+    % Title background color. See the color definition in the color theme used
+    colback=frametitlebg,
+    % Title text color. See the color definition in the color theme used
+    colupper=frametitlefg,
+    nobeforeafter,
+    frame hidden,
+    halign=left,
+    boxsep=0pt,
+    boxrule=0pt,
+    sharp corners,
+    spread upwards,
+    before skip=0pt,%,halign=center
+    % Alternatives for title background shadow. Comment to remove shadow
+    % lifted shadow={1mm}{-1.5mm}{2mm}{.1mm}{frametitlefg!50!black}, 
+    drop fuzzy midday shadow=frametitlefg!90!black, 
+  }
+}
+
+
+% \setbeamertemplate{frametitle}
+% {
+%   % \vskip-1cm%
+% % \begin{beamercolorbox}[wd=\paperwidth,ht=1.2cm]{frametitle} 
+% \begin{beamercolorbox}[wd=\paperwidth]%{frametitle} 
+% \begin{tcolorbox}[title]
+% \insertframetitle
+% \end{tcolorbox}
+% \end{beamercolorbox}
+%
+%   % \begin{center}
+%   % % Inserting the frame title
+%   % \vbox{\strut\insertframetitle\strut}
+%   % \end{center}
+%   % % Moving text up in relation to the title
+%   %  \vspace*{-0.5em}
+% }
+
+%%%%%
+%% Frame box {{{2
+%% This is the frame box. The righthand (\tclower) is rendered only if the \SideLogo is defined. This command should contain the path for an image file
+%%%%%
+\defbeamertemplate{frametitle}{defaulttitle}
+{
+  \begin{tcolorbox}[tctitle]
+        % \insertframetitle    
+        \fittext{\insertframetitle}%
+        \ifdef\SideLogo{%
+        \tcblower%
+        \includegraphics[width=\linewidth]{\SideLogo}%
+        }
+        {}
+  \end{tcolorbox}
+
+}
+
+
+% ▄┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▄
+% ░ Template to hide the title                                    ░
+% ▀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▀
+\defbeamertemplate{frametitle}{notitle}{
+\setbeamertemplate{frametitle}{}
+} 
+
+
+% ▄┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▄
+% ░ Template to hide the footer                                   ░
+% ▀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▀
+\defbeamertemplate{footline}{nofoot}{
+\setbeamertemplate{footline}{}
+\setbeamertemplate{headline}{}
+}
+
+\defbeamertemplate{background canvas}{bgblack}{
+\setbeamercolor*{background canvas}{bg=black} 
+}
+
+\defbeamertemplate{background canvas}{bgcolor}[1][black]{
+  \setbeamercolor*{background canvas}{bg=#1} 
+}
+
+%###############################################################################
+%                                                                              #
+% Section slide {{{1                                                           #
+%                                                                              #
+%###############################################################################
+
+%%% section page template {{{2
+\setbeamertemplate{section page}{
+  
+  %%% page background {{{3
+  %% First creating the page background. This is a gradient with fixed colors
+  \begin{tikzpicture}[remember picture,overlay]%     
+    \shade[top color=blue!15,bottom color=green!10]
+	  (current page.north west) rectangle (current page.south east); 
+  \end{tikzpicture}%     
+
+
+   %%% rectangle and title {{{3
+   %% Creating a lifted rectangle with two colors (same as above) as the borders
+   \begin{tikzpicture}[remember picture,overlay]
+
+	  % Create an outer rectangle with the same colors as the title page
+	  % but with a reduced size (40pts) and inverted top/bottom,
+	  % and a nice (?) circular glow giving it a bumpy appearance
+    \shade[
+      bottom color=blue!15,
+      top color=green!10,
+      opaque,
+      circular glow={fill=black!60}]
+	  ([yshift=-40pt]current page.west) rectangle
+	  ([yshift=40pt]current page.east);
+
+	  % Creating the inner rectangle
+    \shade[top color=blue!15,bottom color=green!10,nearly opaque]
+	  ([xshift=10pt,yshift=-30pt]current page.west) rectangle
+	  ([xshift=-10pt,yshift=30pt]current page.east);
+
+
+	  % Placing the section text inside the rectangle
+    \node[font={\usebeamercolor{section title}}] 
+		 at (current page.center) (section) {
+		 {\usebeamercolor{section}\usebeamerfont{section}\secname\par}
+		%   %%% I had to \secname instead of \insertsection. TODO: the section
+		%   % title color is not applied!!
+	  };
+
+	\end{tikzpicture}
+} % end of section page
+
+
+%%% section page at begin {{{2
+% Important! Add a new frame for the section slide, which template is given by
+% "section page"
+\AtBeginSection{
+	\begingroup
+  % Removing elements
+	\setbeamertemplate{headline}{}
+	\setbeamertemplate{footline}{}
+  % Background color is set, but overridden by the section page template 
+  \usebeamercolor[bg]{background canvas}%{bg=white}
+	\frame{\sectionpage}
+	\endgroup
+}
+
+
+
+%
+% Footer - footline {{{1
+%
+\setbeamertemplate{page number in head/foot}[totalframenumber]%
+
+\defbeamertemplate*{footline}{infolines theme}
+{%
+  \leavevmode%
+  \hbox{%
+  
+  % Author
+  \begin{beamercolorbox}[wd=.233333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor
+    % \usebeamerfont{author in head/foot}\insertshortauthor\expandafter\ifblank\expandafter{\beamer@shortinstitute}{}{~~(\insertshortinstitute)}
+  \end{beamercolorbox}%
+
+  % Middle line - 
+  \begin{beamercolorbox}[wd=.533333\paperwidth,ht=2.25ex,dp=1ex,center]{section in head/foot}%
+    % \usebeamerfont{title in head/foot}\insertsectionhead\expandafter\insertshorttitle
+    \usebeamerfont{title in head/foot}\insertsectionhead
+  \end{beamercolorbox}%
+
+  % Slide pages
+  \begin{beamercolorbox}[wd=.233333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{2em}
+    \usebeamercolor[fg]{page number in head/foot}\usebeamerfont{page number in head/foot}\usebeamertemplate{page number in head/foot}\hspace*{2ex} 
+  \end{beamercolorbox}}%
+  % \vskip0pt%
+}
+
+\defbeamertemplate{footline}{blank}{}
+
+%%%%%%%%%%%%%%%%%
+% Animations {{{1
+%%%%%%%%%%%%%%%%%
+\addtobeamertemplate{background canvas}{\transblindsvertical[duration=1]}{}
+
+%##########################################################
+% Slide styles - white and black - as beamer options {{{1 #
+%%#########################################################
+
+% ▄┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▄
+% ░ These templates are not working!!!                            ░
+% ▀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▀
+%%% A plain black slide -- NOT working!!!
+\defbeamertemplate{background canvas}{black}
+{%
+  \color{black}\vrule width\paperwidth height\paperheight% added bg color
+}
+% \defbeamertemplate*{background canvas}{white}
+{%
+  % \color{white}\vrule width\paperwidth height\paperheight% added bg color
+% }
+% % ░ Template with background color ░┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+% % Use: \setbeamertemplate{background canvas}[background][white]
+% \defbeamertemplate{background canvas}{background}[1][black]{%
+%   \setbeamercolor{background canvas}{bg=#1} 
+%   \usebeamercolor[bg]{background canvas}
+% }
+%
+% \defbeamertemplate{background canvas}{bgblack}{%
+%   \setbeamercolor{background canvas}{bg=orange} 
+%   \usebeamercolor[bg]{background canvas}
+% }
+%
+
+
+%                        ▄┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▄
+%                        ░ Setting beamer frame options ░
+%                        ▀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▀
+%
+% blacktitle = Black background with regular title. The text color is the same as the title
+% blackplain = Black background WITHOUT title. The text color is the same as the title
+% whitetitle = white background with regular title. The text color is the same as the title
+% whiteplain = white background WITHOUT title. The text color is the same as the title
+%
+
+% ▶………………………………………………………………………………………………………… beamer frame options/layouts {{{1
+
+\makeatletter
+
+% ▶………………………………………………………………………………………………………………………………………………………… blacktitle {{{2
+
+
+
+\providebool{black}
+\define@key{beamerframe}{black}[true]{%
+    \booltrue{black}
+    \begingroup
+    % Removing heading (atop title) and footer
+% \setbeamertemplate*{headline}{}
+% \setbeamertemplate*{footline}{}
+% Set the background color
+\setbeamercolor{background canvas}{bg=black} 
+% Changes the body text color. Must set and use the beamer color
+\color{FrameTitleFG}
+% \color{BulletColor}
+% \setbeamercolor{normal text}{fg=cyan}%
+\setbeamercolor{frametitle}{fg=BulletColor}
+% \setbeamercolor{frametitle}{fg=FrameTitleBG,bg=FrameTitleFG}
+% Set the frame title text color (fg) and background (bg)
+% \setbeamercolor{frametitle}{fg=FrameTitleBG,bg=FrameTitleFG}
+
+}
+% This is to apply only to the current slide
+\pretocmd{\beamer@reseteecodes}{%
+  \ifbool{black}{
+    \endgroup
+    \boolfalse{black}
+  }{}
+}{}{}
+
+% ▶………………………………………………………………………………………………………………………………………………………… blackplain {{{2
+\providebool{blackplain}
+\define@key{beamerframe}{blackplain}[true]{%
+    \booltrue{blackplain}
+    \begingroup
+\setbeamercolor{background canvas}{bg=black} 
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}{}
+% Hides slide title
+\setbeamertemplate{frametitle}{}
+% Set the background color
+% Changes the body text color. Must set and use the beamer color
+% \setbeamercolor{normal text}{fg=FrameTitleFG}         
+% \usebeamercolor[fg]{normal text}
+\color{FrameTitleFG}
+}
+\pretocmd{\beamer@reseteecodes}{%
+  \ifbool{blackplain}{
+    \endgroup
+    \boolfalse{blackplain}
+  }{}
+}{}{}
+
+\define@key{beamerframe}{whitetitle}[true]{%
+  \setbeamertemplate{background canvas}[white]%
+}
+
+% ▶………………………………………………………………………………………………………………………………………………………… white      {{{2
+\providebool{white}
+\define@key{beamerframe}{white}[true]{%
+    \booltrue{white}
+    \begingroup
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}{}
+
+% Set the background color
+\setbeamercolor{background canvas}{bg=white} 
+}
+\pretocmd{\beamer@reseteecodes}{%
+  \ifbool{white}{
+    \endgroup
+    \boolfalse{white}
+  }{}
+}{}{}
+
+% ▶………………………………………………………………………………………………………………………………………………………… blank      {{{2
+% ▄┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▄
+% ░ A plain slide with white bg and no title or footline          ░
+% ▀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▀
+\providebool{whiteplain}
+\define@key{beamerframe}{whiteplain}[true]{%
+    \booltrue{whiteplain}
+    \begingroup
+% \setbeamertemplate*{footline}{}
+% % Hides slide title
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}{}
+\setbeamertemplate{frametitle}{}
+% Set the background color
+\setbeamercolor{background canvas}{bg=white} 
+}
+\pretocmd{\beamer@reseteecodes}{%
+  \ifbool{whiteplain}{
+    \endgroup
+    \boolfalse{whiteplain}
+  }{}
+}{}{}
+
+
+% ▄┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▄
+% ░ Option to remove the title                                    ░
+% ▀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▀
+\providebool{notitle}
+\define@key{beamerframe}{notitle}[true]{%
+    \booltrue{notitle}
+    \begingroup
+
+\setbeamertemplate{frametitle}{}
+
+}
+\pretocmd{\beamer@reseteecodes}{%
+  \ifbool{notitle}{
+    \endgroup
+    \boolfalse{notitle}
+  }{}
+}{}{}
+
+
+% ▄┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▄
+% ░ Option to remove the footline - same as plain                 ░
+% ▀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▀
+\providebool{nofoot}
+\define@key{beamerframe}{nofoot}[true]{%
+    \booltrue{nofoot}
+    \begingroup
+
+\setbeamertemplate{footline}[nofoot]
+
+}
+\pretocmd{\beamer@reseteecodes}{%
+  \ifbool{nofoot}{
+    \endgroup
+    \boolfalse{nofoot}
+  }{}
+}{}{}
+
+% ▄┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▄
+% ░ The bare frameoption removes the headline, footline and       ░
+% ░ title from the slide                                          ░
+% ▀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▀
+\providebool{bare}
+\define@key{beamerframe}{bare}[true]{%
+    \booltrue{bare}
+    \begingroup
+    
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}{}
+\setbeamertemplate{frametitle}{}
+
+}
+\pretocmd{\beamer@reseteecodes}{%
+  \ifbool{bare}{
+    \endgroup
+    \boolfalse{bare}
+  }{}
+}{}{}
+ 
+\makeatother          
+
+\makeatletter
+
+%Hack to create a black slide, overiding the 'b' option in frame environment arguments 
+\define@key{beamerframe}{b}[true]{%
+  \begingroup%
+  \setbeamertemplate{background canvas}[black]%
+}
+%%% A plain white slide
+
+\define@key{beamerframe}{c}[true]{% centered
+  \beamer@frametopskip=0pt plus 1fill\relax%
+  \beamer@framebottomskip=0pt plus 1fill\relax%
+  \beamer@frametopskipautobreak=0pt plus .4\paperheight\relax%
+  \beamer@framebottomskipautobreak=0pt plus .6\paperheight\relax%
+  \def\beamer@initfirstlineunskip{}%
+}
+
+\makeatother
+
+% % This command is used to renew the default background for each frame
+% % Without it after each background canvas change all the slides would be
+% % modified
+\BeforeBeginEnvironment{frame}{%
+  \setbeamertemplate{background canvas}[default]
+  % \setbeamercolor{frametitle}{bg=frametitle.bg,fg=frametitle.fg}
+  % \usebeamercolor{frametitle}
+  \setbeamertemplate{frametitle}[defaulttitle]%
+  \setbeamertemplate{footline}[infolines theme]
+  \setbeamercolor{normal text}{fg=TextColor}
+  \usebeamercolor[fg]{normal text}
+  % \setbeamercolor{frametitle}{fg=TextColor}
+  \setbeamercolor*{frametitle}{fg=FrameTitleFG,bg=FrameTitleBG}
+}
+
+\mode
+<all>

@@ -1,0 +1,700 @@
+---
+title: "Demonstration of slide layouts "
+subtitle: "compgen-slides-beamer extension"
+author: Georgios Pappas Jr
+institute: | 
+  University of Brasilia 
+  Computational genomics group
+date: 2025-10-08
+format: compgen-slides-beamer
+# meta: 
+#   ext: compgen-slides
+---
+
+[tcolorbox]: <https://github.com/T-F-S/tcolorbox> "tcolorbox"
+
+# Layouts
+
+## Slide layouts 
+
+* In a traditional slide presentation software like, [LibreOffice Impress](https://www.libreoffice.org/discover/impress/) or Powerpoint, there is the concept of slide layouts 
+
+
+![Layouts](assets/img/powerpoint-slide-layout.png){height=50%}
+
+
+
+* Layouts define the placement and structure of text or image components in the slide, and persist the layout even after theme changes
+
+
+## Regular slide
+
+To compose regular slides, use the syntax:
+
+1. Section slides start a line with a single ++#++ (-w- and a space after the title --)
+2. Regular slides start a line with double ++##++
+3. Sub-blocks inside a slide start a line with ++###++
+#. To split a slide without the title, start a line with @@---@@ 
+
+## Frame attributes 
+
+* In Quarto, it is possible to pass [attributes to a frame]{https://quarto.org/docs/presentations/beamer.html#frame-attributes}
+* The syntax is: 
+
+        ## Fit contents slides {.shrink}
+
+NOTE: In this case the slide contents are shrinked to fit the frame
+
+
+## Regular slide {.plain}
+
+{.plain}
+:  Slide contents, without footer
+
+<!-- -->
+
+    ## Regular slide {.plain}
+
+## Regular slide {.c}
+
+{.c}
+:  Slide contents are vertically centered in the slide 
+
+<!-- -->
+
+    ## Regular slide {.c}
+
+# Custom layouts provided by this package
+
+## Custom layouts
+
+* Some layouts are particularly used in presentations, like:
+  * An all white or black slide to include an image
+  * The same without title 
+  * Slide without footer
+
+* Some slide attributes, _frameoptions_ in Beamer nomenclature, can be passed to the slide title and modify its behavior
+
+<!-- -->
+
+::: {.admonitiontip}
+
+The syntax is different, and we have to pass the attribute ++frameoptions=++ inside braces:
+
+    ## Slide {frameoptions="<value>"}
+:::
+
+* In the following slides some of these new layouts are presented
+
+## Black with title {frameoptions="black"}
+
+A black background slide
+
+    ## Black with title {frameoptions="black"}
+
+
+## Black with title no footer {frameoptions="black,plain"}
+
+A black background slide with a title and without footer
+
+To remove the footer add the `plain` or `bare` option
+
+    ## Blacktitle {frameoptions="black,plain"}
+
+## Black WITHOUT title {frameoptions="black,notitle"}
+
+A black background slide without the title and footer
+
+To remove the footer add the `notitle` option
+
+    ## Black with title {frameoptions="black,notitle"}
+
+NOTE: The "notitle" option also works for normal slides
+
+## blackplain: black WITHOUT title/footer {frameoptions="blackplain"}
+
+A black background slide without the title and footer
+
+    ## Black with title {frameoptions="blackplain"}
+
+Is the same as:
+
+    ## Black with title {frameoptions="black,plain,notitle"}
+
+
+## Black slide notitle {frameoptions="black,bare"}
+
+For an all black slide without title and footer:
+
+    ## Black slide notitle {frameoptions="black,bare"}
+
+Is the same as:
+
+    ## Black slide {frameoption="blackplain"}
+
+
+## White slide {frameoptions="white" }
+
+All white slide syntax:
+
+    ## {frameoption="white"}
+
+
+## White slide { frameoptions="whiteplain" }
+
+All white WITHOUT title
+
+    ## White slide {frameoption="whiteplain"}
+
+Is the same as:
+
+    ## White slide {frameoption="white,notitle"}
+
+## Summary of slide layouts
+
+- Use the construct:
+
+      ## Title {frameoption=""}
+
+
+- The list of possible options are:
+
+:::list-table
+
+  * - frameoption
+    - Background
+    - Title
+    - Footer
+
+  * - black
+    - Black
+    - Yes
+    - Yes
+
+  * - blackplain or black,bare
+    - Black
+    - No
+    - No
+
+  * - black,notitle
+    - Black
+    - No
+    - Yes
+
+  * - black,nofoot
+    - Black
+    - Yes
+    - No
+
+  * - white
+    - White
+    - Yes
+    - No
+
+  * - whiteplain
+    - White
+    - No
+    - No
+
+:::
+
+- The options "bare", "plain", "notitle" and "nofoot" can be used in any slide
+
+
+
+# Dividing in columns 
+
+## Layout implementation: two columns
+
+* One of the most used layouts is the division of the slide in two columns 
+* Quarto provides this using the [multi column Div syntax](https://quarto.org/docs/presentations/beamer.html#multiple-columns)
+
+
+```markdown
+:::: {.columns}
+
+::: {.column width="40%"}
+contents Left column...
+:::
+
+::: {.column width="60%"}
+contents Right column...
+:::
+
+::::
+```
+* Another alternative is the [Quarto Div layout syntax](https://quarto.org/docs/authoring/figures.html#complex-layouts), which offers full layout customization
+
+## Easier columns 
+
+* This extension provides the [twocol class](https://github.com/gpappasunb/twocol) Div to easily create two columns 
+    * With this Div, the two columns are separated by @@ - - - @@
+
+### Markdown code
+
+```md
+::: {.twocol}
+Left column text 
+
+- - -
+Right column contents
+
+* Item 1
+
+:::
+```
+
+### Rendered columns
+
+::: {.twocol}
+Left column text 
+
+- - -
+Right column contents
+
+* Item 1
+
+:::
+
+<!-- [The column separator is - - -]{.focustag opts="MyGreen,Tip"}  -->
+
+
+# Flexible columns with class .split
+
+## Two columns with the split class
+
+* The `split` class offers a flexible way to create columns, using the LaTeX `tcolorbox` class
+* Put the two columns inside a div with class ".split" and separate the columns with [* * *]{.hl} or [- - -]{.hl}, starting in the first column 
+* The main advantage is that the user has finer control over the placement and styling of the contents
+
+:::markdownrender
+
+:::: {.split }
+ 
+Content left
+ 
+- - -
+
+Content right
+ 
+::::
+
+
+:::
+
+## split class with arguments
+
+* The `split` class can have several arguments:
+
+[.split with arguments]{.rule opts="Purple"}
+
+    {.split title='Box title' style=split titleleft='Left column' titleright='Right column'}
+
+::: {.split title="Box title" style=split titleleft="Left column" titleright="Right column"}
+ 
+title
+:  adds a title frame
+ 
+style 
+:  ++split++ will color the columns differently
+
+<!-- -->
+
+* * *
+
+Content right
+ 
+:::
+
+<!-- ++{.split title='Box title' style=split titleleft='Left column' titleright='Right column'}++(scale=0.8) -->
+
+---
+
+[.split without title and different colors]{.ruletitled}
+
+    {.split style=split bgleft=green!20 bgright=orange!35 }
+
+::: {.split style=split bgleft=green!20 bgright=orange!35 }
+ 
+Left content
+
+* * *
+
+Content right
+ 
+:::
+
+## Available arguments for split class {.shrink}
+
+Arguments for the ++split++ class should follow its definition, and are space-separated
+
+
+| Argument   | Description    |
+|--------------- | --------------- |
+| title     | Main title. If not provided no title frame is shown|
+| align     | Exactly two values indicating text alignment in the column. align='center,right' | 
+| ratio     | Width of the left-hand column. Value between 0 and 1 | 
+| left or titleleft | Subtitle left of column  |
+| right or titleright| Subtitle right of column |
+| bgleft/bgright | Background color left/right|
+| style     | Custom tcolorbox style for the box|
+| image     | Path of image add to the right column | 
+:  Possible values for split class arguments
+
+## split with style
+
+* The argument _style_ provides provides column customization using the options in: [T-F-S/tcolorbox: A LaTeX package to create highly customizable colored boxes.](https://github.com/T-F-S/tcolorbox)
+
+
+::: {.split style="sidebyside,bicolor,colupper=red,fontupper={\\huge\\ttfamily},lefthand width=2.2cm,fontlower={\\tiny}" bgleft=green!20 bgright=Tomato!35 }
+ 
+Left content
+
+* * *
+
+    ::: {.split 
+    style="sidebyside,bicolor,colupper=red,fontlower={\\tiny}" 
+    bgleft=green!20 
+    bgright=orange!35}
+
+style="sidebyside, bicolor, colupper=red, fontupper={\\\\huge\\\\ttfamily}, lefthand width=2.2cm, fontlower={\\\\tiny}"
+
+:::
+
+NOTE: The options "sidebyside,bicolor" are necessary to produce two columns and distinct colors. If not provided, the split class produces a two row box with a single color
+
+## split with style, predefined styles
+
+
+* Some styles are predefined
+
+| style=   | Description    |
+|--------------- | --------------- |
+| split   | column height is full slide, different column colors   |
+| splitblack   | same as split, right column is black   |
+| splitblank   | same as split, all columns are white |
+: Predefined styles available for the split class {.stripped}
+
+---
+
+## Styles can be reused
+
+* The recommended style is `style=split`
+
+:::::{.split style="split"}
+
+Left contents
+
+* * *
+
+    {.split style="split"}
+
+:::::
+
+## Style splitblack
+
+* An alternative is `splitblack`, which turns the right background black and adjusts the text color
+
+:::::{.split style="splitblack"}
+
+Left contents
+
+* * *
+
+    {.split style="splitblack"}
+
+The text also changes color
+
+:::::
+
+## Style splitblank
+
+:::::{.split style="splitblank"}
+
+Left contents
+
+* * *
+
+    {.split style="splitblank"}
+
+Right contents
+
+:::::
+
+## Styles can be reused
+
+:::::{.split style="split,colupper=White,colback=DodgerBlue" ratio=0.2}
+
+**Left contents**
+
+* * *
+
+    {.split style="split,colupper=White,colback=DodgerBlue" ratio=0.2}
+
+::comment-dots::(fg=MyGreen)
+
+ * split parameters are provided as space-separated key=value pairs
+* The options for `style` are taken directly from [tcolorbox package][tcolorbox]
+* `ratio=` is a parameter of the split class, and not a style option. It creates different column sizes, always referring to a ratio of the width of the _left_ column. In this case, the left column takes 0.2 (20%) of the width
+
+:::::
+
+## split horizontal
+
+* It is possible to create an horizontal split, resulting in two rows instead of two columns
+
+
+:::::{.split style=split horizontal=true ratio=0.35}
+
+Left contents are on top now
+
+--- Key option:--- 
+
+++horizontal=true++
+
+* * *
+
+    {.split style=split horizontal=true}
+
+:::::
+
+
+# split class with images 
+
+
+## Adding images to split 
+
+* The `split` class accepts the `image` parameter 
+
+      ::: {.split image=linux}
+      Left content
+      * * *
+      Text before image
+      :::
+      
+NOTE: Horizontal Rule marker (* * *) is mandatory, even without text before image
+
+* The value is the image path. If the extension is [.png]{.monoblue}, the it can be omitted 
+* The image is added to the **right** panel 
+  * Regular content can also be added to the right panel
+  * The image is always inserted at the right column 
+  * Some text can be added to the image (after the separator). It appears, [before]{.it} the image 
+
+## split with images
+
+::: {.split style=splitimage image=linux}
+ 
+      ::: {.split style=splitimage image=logo.png}
+      
+      Notice that the style is "splitimage" 
+        for a white background
+
+      * * *
+      
+      Text before image
+        In the bottom put any text you want
+      :::
+
+* * *
+
+Text before image
+<!-- Notice that the Horizontal Rule marker is mandatory, even without contents -->
+:::
+
+# The sideimage class
+
+## Using the sideimage environment
+
+* To facilitate even more the inclusion of images, there is another class: ++.sideimage++
+* The sideimage class accepts directly an image parameter 
+  * The image is always added to the right panel 
+  * The text inside the block is rendered to the left pane
+  * There is no need to separate the column contents with @@- - -@@
+
+<!-- -->
+
+```markdown
+::: {.sideimage image=linux}
+Contents shown at the left column
+:::
+
+```
+
+- - - 
+
+::::markdownrender
+
+::: {.sideimage image=linux}
+ 
+Using the sideimage Div
+
+- one
+- two
+- three
+
+:::
+
+::::
+
+## Using the sideimage environment with a pause (animation)
+
+::: {.sideimage image=linux animate=true}
+```md
+::: {.sideimage 
+image=logo.png 
+pause=true}
+```
+
+The option +!pause=true!+ animates the image, showing it after the text on the left
+ 
+:::
+
+## sideimage using a tcolorbox style
+
+::: {.sideimage image=linux style=splitimage}
+ 
++! {.sideimage image=linux style=splitimage} !+
+
+
+:::
+
+## sideimage using a tcolorbox style
+
+::: {.sideimage image=linux style=splitblack}
+ 
+    {.sideimage image=linux style=splitblack}
+
+!v 1cm v!
+
+--- Options: ---
+
+* The `style=splitblack` paints the image background in black
+
+
+:::
+
+## Sideimage, with image at the left side
+
+
+::: {.sideimage image=linux swap=true}
+ 
+ The syntax is simply:
+
+    {.sideimage image=linux swap=true}
+
+--- Key option: swap=true ---
+
+:::
+
+## Sideimage, with image at the bottom (instead of right)
+
+
+::: {.sideimage image=linux horizontal=true style=splitimage scale=0.15}
+ 
+ The syntax is simply:
+
+    {.sideimage image=linux horizontal=true style=splitimage scale=0.15}
+
+--- Key option: horizontal=true ---
+
+::: {.atip}
+`style=splitimage` creates boxes with full page height, with different colors
+
+++scale=0.15++ Scales down the image. Maybe necessary in horizontal mode
+:::
+
+:::
+
+## Sideimage, with image at the bottom and height set to 0.2 of the top part (20%)
+
+
+::: {.sideimage image=linux horizontal=true style=splitimage ratio=0.2 scale=0.3}
+ 
+ The syntax is:
+
++! {.sideimage image=linux horizontal=true style=splitimage ratio=0.2 scale=0.3} !+
+
+:::
+
+
+## Separating slide with horizontal rules
+
+* Horizontal rules can be drawn to separate topics in the slide
+* Use a span with the class `.hr` (horizontal rule)
+  * The span contents can contain a text. It is presented centered in the line
+
+### Use of hr span
+
+```markdown
+[text]{.hr}
+
+[text]{.hr pass="color=orange,width=6pt,fg=blue,pos=left"}
+```
+
+### Rendered
+
+[text]{.hr}
+
+[text]{.hr pass="color=orange,width=6pt,fg=blue,pos=left"}
+
+
+## Separating slide with horizontal rules (cont.) {.shrink}
+
+* Several options can be passed to `hr` 
+
+### Options 
+
+* color: rule color
+* width: rule width
+* fg: text color 
+* pos: left, right or center (default). Text placement
+* Text is optional to the span element
+
+### Shortcut markup
+
+* `xxxx` Four x characters is a shortcut for an horizontal rule. Change this in the `flexspan` yml definition 
+
+xxxx
+    
+    === Text ===    ->  Enclose text in 3 '=' 
+
+=== Text ===
+
+    === Text ===(color=orange!20,pos=right) ->  customize the rule
+
+=== Text ===(color=orange!20,pos=right)
+
+    === Attention! ==! : displays a **red** rule. The right placeholder is "==!"
+
+=== Attention! ==!
+
+
+## Titled rules
+
+* Another type of separation is a titled rule. It can be rendered using the class `rule` 
+<!-- -->
+
+        [Titled section]{.rule}
+
+[Titled section]{.rule}
+
+* The only option available is the color 
+<!-- -->
+
+        [Titled section in red]{.rule opts="red"}
+
+[Titled section in red]{.rule opts="red"}
+
+* There is a simple shortcut notation. Enclose in '---'
+
+<!-- -->
+
+        --- Titled rule ---
+--- Titled rule ---
+
+* The color can be changed inside the parenthesis
+
+<!-- -->
+
+        --- Titled rule ---(Tomato)
+--- Titled rule ---(Tomato)

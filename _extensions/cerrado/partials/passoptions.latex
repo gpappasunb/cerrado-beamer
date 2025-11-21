@@ -1,0 +1,31 @@
+%%%%%%%%%%%%%%%%%%%%
+% Loading packages %
+%%%%%%%%%%%%%%%%%%%%
+%% Required packages
+\RequirePackage[table,dvipsnames,svgnames,x11names]{xcolor}
+\RequirePackage{colortbl}
+% \RequirePackage{color}
+\RequirePackage{fancyvrb}
+\RequirePackage{pgfpages}
+\RequirePackage{amsmath,amssymb}
+\RequirePackage{calc} % for calculating minipage widths
+\RequirePackage[normalem]{ulem}
+\RequirePackage{fontawesome5} 
+\RequirePackage{academicons} 
+\RequirePackage{varwidth} % for tcolorbox
+\RequirePackage[most]{tcolorbox} 
+\RequirePackage{circledsteps} 
+\RequirePackage[framemethod=TikZ]{mdframed}
+\RequirePackage{xifthen}
+\RequirePackage{iftex}
+\RequirePackage{relsize}
+\RequirePackage{soul}
+% \RequirePackage{caption}
+\RequirePackage{framed}
+
+
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode$for(hyperrefoptions)$,$hyperrefoptions$$endfor$}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+% \PassOptionsToPackage{table,dvipsnames,svgnames,x11names}{xcolor}
+\PassOptionsToPackage{newfloat}{minted}

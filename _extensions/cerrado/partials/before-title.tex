@@ -1,0 +1,1575 @@
+%%%%
+%% Several customizations
+%%%%
+
+%%%%%%%%%%%%%%%%
+%  Colors {{{1 %
+%%%%%%%%%%%%%%%%
+
+% This is a command to provide a default color if one is not provided, avoid color errors. Usage: \colorprovide{Mycolor}{red}. If Mycolor exists, then nothing is changed, if not, it is assigned to red
+\newcommand{\colorprovide}[2]{\providecolor{#1}{named}{#2}}
+
+%%% Color for rendered components {{{2
+%%%%% Background color for code boxes
+\colorlet{shadecolor}{cyan!10}
+% Frame color for code boxes
+\definecolor{framecolor}{rgb}{1.0,0.1,0.1}
+% Font color for the prompt inside code boxes
+\definecolor{promptcolor}{rgb}{1.0,1.0,0.1}
+% Font color for text inside code boxes
+\definecolor{terminalcolor}{rgb}{0.0,1.0,1.0}
+
+%%%% Colors for styling boxes {{{2
+\colorlet{notecolor}{cyan}
+\colorlet{tipcolor}{OliveGreen}
+\colorlet{errorcolor}{red}
+\colorlet{warncolor}{orange}
+\colorlet{termcolor}{black}
+\colorlet{quotecolor}{Lavender}
+
+%%% Color used in boxes {{{2
+% For code blocks 
+\colorlet{CodeBoxBG}{gray!15!white} 
+
+% ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┤ texttt fg and bg colors {{{1 ├┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+% For the bg color inside the backticks in markdown
+\definecolor{CodeTTFG}{HTML}{092B5D}
+\definecolor{CodeTTBG}{HTML}{E0F7FF}
+
+%% for markdown render boxes 
+\colorlet{BoxTitle}{blue!35!white}
+\colorlet{BoxTitleShade}{BoxTitle!50!black}
+
+%% for the \listitem command 
+\colorlet{ListItemBG}{cyan!15}
+\colorlet{ListItemNumberFG}{cyan!80}
+\colorlet{ListItemNumberBG}{black!95}
+
+% ▶………………………………………………………………………………………………………………………………………………………………………░ Fonts  {{{1
+\newcommand{\MonoFont}{Latin Modern Mono}
+
+%###############################################################################
+%                                                                              #
+% Fitting commands {{{1                                                        #
+%                                                                              #
+%###############################################################################
+%
+% A command to fit a text to the width of the frame.
+% optional: the length to be fitted. Default: \textwidth (full page)
+% mandatory: the text to be fitted
+% Example: 
+%   \fitline{long text ....}
+%   \fitline[5cm]{long text ....}
+\DeclareDocumentCommand\fittext{O{\textwidth} m}{
+  \newdimen{\namewidth}%
+  \setlength{\namewidth}{\widthof{#2}}%
+  \ifthenelse{\lengthtest{\namewidth < #1}}%
+  {#2}% do nothing if shorter than text width
+  {\resizebox{#1}{!}{#2}}% scale down
+}
+
+% ▶……………………………………………………………………………………………………………………………………………………………………░ Tables  {{{1
+\rowcolors{1}{white}{blue!10}
+
+
+% ▶…………………………………………………………………………………………………………………………………… Styling components {{{1
+
+% ▶………………………………………………………………………………………………………………………………………………………… highlighted text {{{2
+
+% ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┤ Custom options to use in \hltext command ├┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+\pgfkeys{
+    /customtext/.is family, /customtext,
+    default/.style = {
+        fg=CodeTTFG,
+        bg=CodeTTBG,
+	font={\MonoFont},
+	% font=\IfFontExistsTF{\MonoFont}{\MonoFont}{Monaco},%\ttfamily,
+	scale=1
+    },
+    fg/.store in = \hrfg,
+    bg/.store in = \hrbg,
+    scale/.store in = \hrscale,
+    font/.store in = \hrfont
+}
+
+% ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┤ Customizable text box ├┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+% usage:
+%   \hltext{text}
+%   \hltext[fg=red,font=Papyrus,scale=1.2,bg=yellow!20]{text}
+\DeclareDocumentCommand{\hltext}{O{} m}{\pgfkeys{/customtext, default, #1}{\fontspec{\hrfont}\relscale{\hrscale}\color{\hrfg}\sethlcolor{\hrbg}\hl{#2}}}
+
+% ▶………………………………………………………………………………………░ hlalert Alert  {{{3………………………………………………………………………………………
+\DeclareDocumentCommand{\hlalert}{O{} m}{\hltext[bg=AlertColor,scale=1.1,font=Georgia,#1]{#2}}
+% ▶………………………………………………………………………………………░ hlalert Alert  {{{3………………………………………………………………………………………
+\DeclareDocumentCommand{\hlalert}{O{} m}{\hltext[bg=AlertColor,scale=1.1,font=Georgia,#1]{#2}}
+% ▶…………………………………………………………………………………░ hlexample  {{{3…………………………………………………………………………………
+\DeclareDocumentCommand{\hlexample}{O{} m}{\hltext[bg=ExampleColor,fg=white,font=Georgia,#1]{#2}}
+% ▶……………………………………………………………………………………░ hlhint  {{{3………………………………………………………………………………
+\DeclareDocumentCommand{\hlhint}{O{} m}{\hltext[bg=HintColor!80,fg=white,font=Georgia,#1]{#2}}
+% ▶………………………………………………………………………………………░ hltip  {{{3………………………………………………………………………………………
+\DeclareDocumentCommand{\hltip}{O{} m}{\hltext[bg=HintColor!80,fg=white,font=Georgia,#1]{#2}}
+% ▶……………………………………………………………………………………░ hlwarn  {{{3………………………………………………………………………………
+\DeclareDocumentCommand{\hlwarn}{O{} m}{\hltext[bg=WarnColor,font=Georgia,#1]{#2}}
+% ▶………………………………………………………░ hlhand Text with fancy string  {{{3………………………………………………………
+\DeclareDocumentCommand{\hlhand}{O{} m}{\hltext[bg=ExampleColor,fg=white,font={Crafty Girls},#1]{#2}}
+% ▶………………………………………………………░ hlnote Note with fancy string  {{{3………………………………………………………
+\DeclareDocumentCommand{\hlnote}{O{} m}{\hltext[bg=ExampleColor!40!black,fg=orange,font={Crafty Girls},#1]{#2}}
+% ▶…………………………………………………………………………░ hlred Red text  {{{3……………………………………………………………………
+\DeclareDocumentCommand{\hlred}{O{} m}{\hltext[fg=AlertColor,bg=yellow!60,#1]{\textrm{\textbf{#2}}}}
+% ▶………………………………………………………………░ hlcode. Used for texttt  {{{3………………………………………………………………
+\DeclareDocumentCommand{\hlcode}{O{} m}{\hltext[bg=HintColor!20,#1]{#2}}
+
+% ▶………………………………………………………………………………………………………………………………………………………… Hyperlinks {{{2
+
+%% Underlines hyperlinks
+\makeatletter
+\Hy@AtBeginDocument{%
+  \def\@pdfborder{0 0 1}% Overrides border definition set with colorlinks=true
+  \def\@pdfborderstyle{/S/U/W 1}% Overrides border style set with colorlinks=true
+                                % Hyperlink border style will be underline of width 1pt
+}
+\makeatother
+
+
+%###############################################################################
+%                                                                              #
+% Boxes and admonitions {{{1                                                   #
+%                                                                              #
+%###############################################################################
+
+% setting all tcolorboxes to be enhanced:
+\tcbsetforeverylayer{enhanced}
+
+%
+% A message in a box
+% It is an environment with the syntax: 
+% \begin{message}[title][color][font awesome icon name]
+% \begin{message}
+%    default without title color=cyan and info-circle icon
+% \begin{message}[my title][blue]
+% \begin{message}[Error][red][bug]
+%    Title=Error, color=red, icon=bug
+% \begin{message}[][red][bug]
+%    Title=NOT SHOWN, color=red, icon=bug
+%
+\DeclareTColorBox{message}{ o O{cyan} O{info-circle}}{
+  enhanced,hbox,
+  boxrule=0.4pt,left=5mm,right=2mm,top=1mm,bottom=1mm,
+  colback=#2!30,
+  colframe=#2!60,
+  sharp corners,rounded corners=southeast,arc is angular,arc=3mm,
+	drop fuzzy shadow,
+  underlay={%
+    \path[fill=tcbcolback!80!black] ([yshift=3mm]interior.south east)--++(-0.3,-0.1)--++(0.1,-0.2);
+    \path[fill=#2!60,draw=none] (interior.south west) rectangle node[white]{\large\bfseries \faIcon{#3}} ([xshift=5mm]interior.north west);
+  },
+  IfValueT={#1}{title={#1},fonttitle=\bfseries}
+}
+
+
+\DeclareTCBox{\marker}{ o O{cyan}  }{
+  enhanced,hbox,
+  boxrule=0.4pt,left=5mm,right=2mm,top=1mm,bottom=1mm,
+  colback=#2!30,
+  colframe=#2!40,
+  sharp corners,rounded corners=southeast,arc is angular,arc=3mm,
+  underlay={%
+    \path[fill=tcbcolback!80!black] ([yshift=3mm]interior.south east)--++(-0.3,-0.1)--++(0.1,-0.2);
+    \path[fill=#2!40,draw=none] (interior.south west) rectangle node[white]{\large\bfseries \faIcon{info-circle}} ([xshift=5mm]interior.north west);
+    },
+	drop fuzzy shadow,
+	IfValueT={#1}{title={\flqq #1\frqq},fonttitle=\bfseries}
+}
+
+\newtcolorbox{marker1}[1][]{enhanced,hbox,
+  boxrule=0.4pt,left=5mm,right=2mm,top=1mm,bottom=1mm,
+  %before skip balanced=2mm,afterskip balanced=3mm,
+  colback=cyan!30,
+  colframe=cyan!40,
+  sharp corners,rounded corners=southeast,arc is angular,arc=3mm,
+  underlay={%
+    \path[fill=tcbcolback!80!black] ([yshift=3mm]interior.south east)--++(-0.3,-0.1)--++(0.1,-0.2);
+    %\path[draw=tcbcolframe,shorten <=-0.05mm,shorten >=-0.05mm] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[fill=cyan!40,draw=none] (interior.south west) rectangle node[white]{\large\bfseries \faIcon{info-circle}} ([xshift=5mm]interior.north west);
+    },
+	drop fuzzy shadow,#1}
+
+%%% Custom admonition boxes{{{2
+\DeclareTColorBox{mybox}{ O{red} m !O{} }
+{
+enhanced,colframe=#1!75!black,colback=#1!10!white,coltitle=#1,
+lefttitle=-1mm,bottomtitle=-3mm,frame hidden,
+fontupper=\footnotesize\sffamily,
+fonttitle=\bfseries,title=\small{#2}, #3
+}
+
+\newtcboxfit{\myfitbox}[2][]{colback=red!5!white, colframe=red!75!black, width=#2,height=#2/3*2,#1}
+
+
+% ▶……………………………………………………………………………………………………………………………………░ Common admonitions  {{{2
+\newenvironment{anote}[1][\unskip] { \begin{mybox}[cyan]{\faTags} #1         } { \end{mybox} }
+\newenvironment{atip}[1][\unskip]  { \begin{mybox}[green!60!black]{\faThumbsUp #1}    } { \end{mybox} }
+\newenvironment{aerror}[1][\unskip]{ \begin{mybox}[red!60!black]{\faTimesCircle#1}   } { \end{mybox} }
+\newenvironment{awarn}[1][\unskip] { \begin{mybox}[orange]{\faExclamationCircle #1} } { \end{mybox} }
+\newenvironment{aterm}[1][\unskip] { \begin{mybox}[black]{\faTerminal #1} } { \end{mybox} }
+
+
+%%%%%% Package fixes {{{2
+
+% Make caption package work with longtable
+%@@` ` \makeatletter
+% \def\fnum@table{\tablename~\thetable}
+% \makeatother
+
+% Avoid problems with \sout in headers with hyperref
+%@@\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+
+%###############################################################################
+%                                                                              #
+% Boxes and admonitions {{{1                                                   #
+%                                                                              #
+%###############################################################################
+
+%
+% Tcolorbox settings {{{2
+%
+
+% ▄┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▄
+% ░ Box styles                                                    ░
+% ▀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▀
+
+% ┅┤ Creating new tcbox options ├┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+\pgfkeys{
+  % fg = text color 
+  /tcb/fg/.style={colupper=#1},
+  /tcb/color/.style={colupper=#1},
+  % bg = background color
+  /tcb/bg/.style={colback=#1,opacityback=1},
+  % scale = sets the percentage of text scaling
+  /tcb/scale/.style={fontupper=\tcbfontsize{#1}},
+  % Key to store the font family name
+  /tcb/font/.store in=\myboxfontname, 
+  /tcb/.cd
+ }
+
+\tcbset{ %base
+  % Basic settings, that can be inherited by other styles
+  base/.style={
+    enhanced,
+    frame hidden,
+    coltitle=#1,
+    colframe=#1!75!black, 
+    colback=#1!10,
+    fontupper=\footnotesize\sffamily,
+    fonttitle=\small\bfseries,
+    %before title={#2~} 
+  }
+} % End of tcbset
+
+\tcbset{ %admonition
+  admonition/.style={
+    base=#1,
+    boxrule=0.4pt,left=5mm,right=2mm,top=1mm,bottom=1mm,
+    colback=#1!30,
+    colframe=#1!60,
+    sharp corners,
+    rounded corners=southeast,
+    arc is angular,
+    arc=3mm,
+    drop fuzzy shadow,
+    underlay={%
+      % Head shades
+      \path[fill=tcbcolback!80!black] ([yshift=3mm]interior.south east)--++(-0.3,-0.1)--++(0.1,-0.2);
+      % Head title
+      \path[fill=#1!60,draw=none] (interior.south west) rectangle node[white] {\faIcon{info-circle}} ([xshift=5mm]interior.north west);
+    %   \path[fill=#2!60,draw=none] (interior.south west) rectangle node[white]{\large\bfseries \faIcon{#3}} ([xshift=5mm]interior.north west);
+      }
+   }
+} % End of tcbset
+
+\tcbset{ %admonitionbox
+  admonitionbox/.style={ 
+    base=#1,
+    minipage,
+    % lefttitle=-1mm,
+    sharp corners=northwest,
+    bottomtitle=-3mm,
+    attach boxed title to top left={yshift=-1mm,xshift=0mm}, 
+    boxed title style={
+      skin=enhanced jigsaw, 
+      no shadow,
+      sharp corners=south,
+      % drop fuzzy shadow,
+      frame hidden, size=small, 
+      arc=2mm,
+      bottom=-1mm, 
+      interior style={fill=none, top color=#1!30!white,bottom color=#1!10!white}
+    }
+    %before title={#2~}, 
+  }
+} % End of tcbset
+
+\tcbset{ %admonitionboxterm
+  admonitionboxterm/.style={ 
+    width=6cm,
+    colback=black!90!white,colupper=yellow!30,
+    fonttitle=\scriptsize\ttfamily,
+    fontupper=\scriptsize\ttfamily
+    frame style={draw=yellow!30}
+  }
+} % End of tcbset
+
+
+
+
+\tcbset{ %abox
+  abox/.style={
+    base=#1,
+    colframe=#1!75!black,
+    colback=#1!10!white,
+    coltitle=#1,
+    lefttitle=-1mm,
+    bottomtitle=-3mm,
+  }
+} % End of tcbset
+
+
+
+
+%@@ Boxes definitions
+
+%
+% Message boxes with a title on top with an icon {{{2
+%
+% A message in a box
+% It is an environment with the syntax: 
+% \begin{message}[title][color][font awesome icon name]
+% \begin{message}
+%    default without title color=cyan and info-circle icon
+% \begin{message}[my title][blue]
+% \begin{message}[Error][red][bug]
+%    Title=Error, color=red, icon=bug
+% \begin{message}[][red][bug]
+%    Title=NOT SHOWN, color=red, icon=bug
+%
+
+\tcbset{ %tcbanner
+  tcbanner/.style={ 
+    base=#1,
+    skin=enhancedlast jigsaw,
+    varwidth boxed title=0.7\linewidth, 
+    colback=#1!10,
+    colbacktitle=#1!45!white, 
+    rounded corners=southeast,
+    arc is angular,
+    arc=3mm,
+    attach boxed title to top left={xshift=-2mm,yshift=-0.5mm}, 
+    drop lifted shadow=black,
+    % Box title
+    boxed title style={empty,arc=0pt,outer arc=0pt,boxrule=0pt},
+    underlay boxed title={
+	    \fill[#1!45!white] (title.north west) -- (title.north east) -- +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm) -- ([xshift=2mm,yshift=0.5mm]frame.north east) -- +(0mm,-1mm) -- (title.south west) -- cycle; 
+	    \fill[#1!45!white!50!black] ([yshift=-0.5mm]frame.north west)
+       -- +(-0.2,0) -- +(0,-0.3) -- cycle; 
+        \fill[#1!45!white!50!black] ([yshift=-0.5mm]frame.north east)
+       -- +(0,-0.3) -- +(0.2,0) -- cycle;  
+     }
+  }
+} % End of tcbset banner
+
+
+% ▶………………………………………………………………………………………………………………………………………………………… Verbatim boxes {{{2
+
+% ░░░░░░░░░░░░░░░░░░░░░░┤ Styles for a verbatim boxes ├░░░░░░░░░░░░░░░░░░░░░░
+
+
+\lstset{
+    escapeinside={(*@}{@*)},          % if you want to add LaTeX within your code
+}
+
+
+
+% ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫ tctext ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{{{3
+% Customizable text!!!
+\tcbset{ %tctext {{{3
+  tctext/.style={
+    enhanced,
+    nobeforeafter,
+    shrink tight,
+    frame hidden,
+    tcbox raise base,
+    before upper={%
+      \ifdef{\myboxfontname}%
+      { \fontspec{\myboxfontname}}% Apply the selected font
+      {}%
+    }
+  }
+}
+% tctext Variant that accepts a color argument
+\tcbset{ %tctextcolor {{{3
+  tctextcolor/.style={
+    colupper=#1
+  }
+}
+
+% tctext Variant that makes the text bold
+\tcbset{ %tctextbold {{{3
+  tctextbold/.style={
+    fontupper=\bfseries
+  }
+}
+% tctext Variant that makes the text colored and bold
+\tcbset{ %tctextcb {{{3
+  tctextcb/.style={
+    tctextbold,tctextcolor=#1
+  }
+}
+
+% ◣………………………………………………………………………………………………………………◢ tcverb - verbatim text box {{{3
+\tcbset{ %tcverb {{{3
+  tcverb/.style={
+    enhanced,
+    fit basedim=6pt,
+    nobeforeafter,
+    verbatim,
+    shrink tight,
+    sharp corners,
+    arc=1mm,
+    % top=1pt,
+    % left=2pt,
+    % right=1pt,
+    boxsep=2pt,
+    colback=blue!15,
+    colupper=black,
+    fontupper=\scriptsize\ttfamily,
+    boxrule=0pt,
+    font={Liberation Mono},
+    before upper={%
+        \fontspec{\myboxfontname} % Apply the selected font
+    }
+  },
+  % ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫ tcverbkeyword ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{{{3
+  tcverbkeyword/.style={
+      fg=#1!50,bg=black,
+      % bottom=1pt,
+      rounded corners=east,
+      boxrule=0.3mm,
+      colframe=#1!50!black
+  },
+  % ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫ tcverbcode    ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{{{3
+  tcverbcode/.style={
+    nobeforeafter,
+    fg=cyan!40,bg=black,
+    top=1pt
+  },
+  % ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫ tcverbalert   ┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━{{{3
+  tcverbalert/.style={
+      fg=white,bg=#1!50!black,
+      % bottom=1pt,
+      left=2pt,right=2pt,
+      rounded corners=uphill,
+      boxrule=1pt,
+      colframe=#1!70!black
+  }
+} % End of tcbset
+
+
+% ▄┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▄
+% ░ Defining the default environment for a verbatim text          ░
+% ▀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▀
+
+
+ % ▶┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┤ A box for keywords {{{2 ├┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈─
+\newcommand{\keyword}[2][]{%
+\tcbox[tcverb,tcverbkeyword=cyan, #1]{#2}
+}
+
+ % ▶┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┤ Icons from FontAwesome {{{2 ├┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+\newcommand{\icon}[2][]{%
+\tcbox[tcverb,opacityback=0,opacityframe=0,colupper=CodeTTFG, #1]{\faIcon{#2}}%
+}
+
+ % ▶┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┤ Predefined Icons from FontAwesome {{{2 ├┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+\newcommand{\iconarrow}[2][]{%
+\tcbox[tcverb,opacityback=0,opacityframe=0,colupper=CodeTTFG, #1]{\faArrowCircleRight~#2}}%
+% \tcbox[tcverb,opacityback=0,opacityframe=0,colupper=CodeTTFG, #1]{\faArrowRight~#2}}%
+
+\newcommand{\iconarrowleft}[2][]{%
+\tcbox[tcverb,opacityback=0,opacityframe=0,colupper=CodeTTFG, #1]{\faArrowCircleLeft~#2}}%
+% \tcbox[tcverb,opacityback=0,opacityframe=0,colupper=CodeTTFG, #1]{\faArrowLeft~#2}}%
+
+\newcommand{\iconpen}[2][]{%
+\tcbox[tcverb,opacityback=0,opacityframe=0,colupper=DarkSlateBlue, #1]{\faEdit~#2}}%
+
+\newcommand{\iconhandright}[2][]{%
+\tcbox[tcverb,opacityback=0,opacityframe=0,colupper=DarkGreen, #1]{\faIcon[regular]{hand-point-right}~#2}}%
+
+\newcommand{\iconcheck}[2][]{%
+\tcbox[tcverb,opacityback=0,opacityframe=0,colupper=DarkGreen, #1]{\faCheckCircle~#2}}%
+
+\newcommand{\iconquestion}[2][]{%
+\tcbox[tcverb,opacityback=0,opacityframe=0,colupper=DarkViolet, #1]{\faQuestionCircle~#2}}%
+
+
+\newcommand{\iconbullet}[2][]{%
+\tcbox[tcverb,opacityback=0,opacityframe=0,colupper=Red, #1]{\faBullseye~#2}}%
+
+\newcommand{\iconwarn}[2][]{%
+\tcbox[tcverb,opacityback=0,opacityframe=0,colupper=RedOrange, #1]{\faExclamationTriangle~#2}}%
+
+\newcommand{\iconfile}[2][]{%
+\tcbox[tcverb,opacityback=0,opacityframe=0,colupper=Blue, #1]{\faFile*[regular]~#2}}%
+
+\newcommand{\iconcamera}[2][]{%
+\tcbox[tcverb,opacityback=0,opacityframe=0,colupper=SteelBlue,#1]{\faCameraRetro}~#2}%
+
+\newcommand{\iconeye}[2][]{%
+\tcbox[tcverb,opacityback=0,opacityframe=0,colupper=darkgray,#1]{\faEye[regular]~#2}}%
+
+\newcommand{\iconthumb}[2][]{%
+\tcbox[tcverb,opacityback=0,opacityframe=0,colupper=Purple,#1]{\faThumbsUp[regular]~#2}}%
+
+\newcommand{\iconterm}[2][]{%
+\tcbox[tcverb,fg=yellow,bg=black,#1]{\faChevronRight~#2}}%
+
+
+% ▶┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┤ A plain box ├┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈─
+\newcommand{\boxverb}[2][]{%
+\tcbox[tcverb, #1]{#2}
+}
+
+% ▶┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┤ Alert boxes ├┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈─
+\newcommand{\boxalert}[2][]{%
+\tcbox[tcverb,tcverbalert=\usebeamercolor[fg]{alerted text}, #1]{#2}
+}
+
+% ▶┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┤ Code boxes ├┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈─
+\newcommand{\boxcode}[2][]{%
+\tcbox[tcverb,tcverbcode, #1]{#2}
+}
+
+% ▶┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┤ Example boxes ├┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈─
+\newcommand{\boxexample}[2][]{%
+\tcbox[tcverb,tcverbalert=green,font=Georgia, #1]{#2}
+}
+
+% ▶┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┤ Fancy text boxes ├┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈─
+\newcommand{\boxfancy}[2][]{%
+\tcbox[tcverb,tcverbalert=SlateBlue,font=Papyrus, #1]{#2}
+}
+
+
+% ▄┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▄
+% ░ Boxes                                                         ░
+% ▀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▀
+% ▶…………………………………………………………………………………………………………………… Banner declarations {{{1
+
+\DeclareTColorBox{boxbanner}{ O{cyan!70} O{info-circle} o !O{}}{
+    tcbanner={#1},
+    % Title 
+    IfValueTF={#3}{title={\footnotesize\faIcon{#2} #3},fonttitle=\bfseries,tile,coltitle=darkgray}{frame hidden},
+    % Additional options
+    #4
+}
+
+
+\DeclareDocumentEnvironment{banner}{o m}
+    % Opening 
+    {
+      \IfValueTF{#1}
+      {
+	\begin{boxbanner}[notecolor][info][#2][#1]
+      }
+      {
+	\begin{boxbanner}[warncolor][bell][#2][#1]
+      }
+    }
+    % Closing 
+    {
+    \end{boxbanner}
+    }
+
+% ▶………………………………………………………………………………………………………………………………… Banner environments {{{2
+
+\newenvironment{messagenote}[1][]{\begin{banner}[#1][notecolor][tags]}{\end{banner} }
+\newenvironment{messagetip}[1][]{\begin{banner}[#1][tipcolor][thumbs-up]}{\end{banner} }
+\newenvironment{messageerror}[1][]{\begin{banner}[#1][errorcolor][times-circle]}{\end{banner} }
+\newenvironment{messagewarn}[1][]{\begin{banner}[#1][warncolor][exclamation-circle]}{\end{banner}}
+\newenvironment{messageterm}[1][]
+{\begin{banner}[#1][termcolor][terminal][fonttitle=\ttfamily,fontupper=\ttfamily]}{\end{banner}}
+\newenvironment{messagequote}[1][]{\begin{banner}[#1][quotecolor][quote-left][fonttitle=\itshape,coltitle=Sepia,fontupper=\itshape]}{\end{banner}}
+
+% ▶……………………………………………………………………………………………………………………………………………………… Admonitions {{{1
+
+\DeclareTColorBox{admonition}{ O{cyan} O{thumbs-up} m !O{}} {
+    admonitionbox={#1},
+    before title={\faIcon{#2}~}, 
+    title={#3},
+    % Additional options
+    #4
+}
+\DeclareTColorBox{admonitionbox}{ O{cyan} m !O{} } {
+    admonition={#1},
+    % Title 
+    title={#2}, 
+    % Additional options
+    #3
+}
+
+% ▶………………………………………………………………………………………………………………………………………………… Sticker boxes {{{1
+% Defines \stickerbox command. 
+% Creates a box with its contents fitted to the frame
+% IMPORTANT: ONLY single lines are permitted. Paragraphs and 
+%            other markup is not rendered
+% 
+% USAGE:
+%   \stickerbox{message}
+%		cyan box with an info icon and text
+%   \stickerbox*{message}
+% 		The starred version does not contain an icon
+%   \stickerbox[red]{message}
+%		Changing the color: red box with an info icon and text
+%   \stickerbox*[red]{message}
+%		Changing the color: red box with and NO icon 
+%   \stickerbox[red][bug]{message}
+%		Changing the color and icon: red box with a bug icon and text
+%   \stickerbox[][bug]{message}
+%		Changing the icon cyan box with a bug icon and text
+%   \stickerbox[GreenOlive][thumbs-up][drop shadow]{message}
+%		Changing the icon cyan box with a bug icon and text. Additional option
+%		can be passed in the third argument [drop shadow] 
+%
+%
+\DeclareTCBox{\stickerbox}{ s O{cyan} O{info-circle} !O{}  }{
+  enhanced,hbox,size=fbox,
+  nobeforeafter,
+  boxrule=0.4pt,
+  right=2mm,top=0.4mm,bottom=0.4mm,
+  IfBooleanTF={#1}{left=0mm}{left=5mm},
+  colback=#2!30,
+  colframe=#2!60,
+  % drop small lifted shadow=darkgray,
+  drop fuzzy shadow=gray,
+  sharp corners,
+  rounded corners=east,
+  % arc is angular,
+  arc=3mm,
+  fontupper=\scriptsize\sffamily,
+  % ifBooleanT={#1} { % Starred version does not contain icon
+	underlay={%
+	  % \path[fill=tcbcolback!80!black] ([yshift=3mm]interior.south east)--++(-0.3,-0.1)--++(0.0,-0.2);
+	  \IfBooleanF {#1} {		
+		\path[fill=#2!50,draw=none] (interior.south west) rectangle node[white]{
+		  \tiny\bfseries \faIcon{#3}} ([xshift=5mm]interior.north west);
+	  }
+
+		% }
+  },
+	#4
+}
+
+
+%
+% ▶………………………………………………………………………………………………………………………………… Custom stickerboxes {{{2
+%   The ones ending with an I contain the icon
+\NewDocumentCommand \sticker      {m} { \stickerbox*{#1} }
+\NewDocumentCommand \stickerI     {m} { \stickerbox{#1}  }
+\NewDocumentCommand \stickerterm  {m} { \stickerbox*[termcolor][][fontupper=\scriptsize\ttfamily]{#1} }
+\NewDocumentCommand \stickertermI {m} { \stickerbox[termcolor][terminal][fontupper=\scriptsize\ttfamily]{#1}  }
+\NewDocumentCommand \stickererror {m} { \stickerbox*[errorcolor]{#1} }
+\NewDocumentCommand \stickererrorI{m} { \stickerbox[errorcolor][times-circle]{#1}  }
+\NewDocumentCommand \stickerwarn  {m} { \stickerbox*[warncolor]{#1} }
+\NewDocumentCommand \stickerwarnI {m} { \stickerbox[warncolor][exclamation-circle]{#1}  }
+
+% ▶………………………………………………………………………………………………………………………………… Inline stickerboxes {{{2
+%%% Inline versions of the stickers above
+\NewDocumentCommand \inlinesticker      {m} { \stickerbox*[notecolor][][on line]{#1} }
+\NewDocumentCommand \inlinestickerI     {m} { \stickerbox[notecolor][info-circle][on line]{#1}  }
+\NewDocumentCommand \inlinestickerterm  {m} { \stickerbox*[termcolor][][on line,fontupper=\scriptsize\ttfamily]{#1} }
+\NewDocumentCommand \inlinestickertermI {m} { \stickerbox[termcolor][terminal][on line,fontupper=\scriptsize\ttfamily]{#1}  }
+\NewDocumentCommand \inlinestickererror {m} { \stickerbox*[errorcolor][][on line]{#1} }
+\NewDocumentCommand \inlinestickererrorI{m} { \stickerbox[errorcolor][times-circle][on line]{#1}  }
+\NewDocumentCommand \inlinestickerwarn  {m} { \stickerbox*[warncolor][][on line]{#1} }
+\NewDocumentCommand \inlinestickerwarnI {m} { \stickerbox[warncolor][exclamation-circle][on line]{#1}  }
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% admonitions longnames boxes{{{2
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This a general box with icons at top left, optional title
+%
+% % Titles are a little offset from the frame
+% % lefttitle=-1mm,
+% % bottomtitle=-3mm,
+% % Title pops out
+% attach boxed title to top left={yshift=-1mm,xshift=-1mm}, boxed title style={skin=enhanced jigsaw, colframe=#1!30!white, size=small,arc=1mm,bottom=-1mm, interior style={fill=none, top color=#1!30!white,bottom color=#1!10!white}},
+
+% % Icon 
+% before title={#2~}, 
+% % Remaining arguments
+% % IfValueT={#3}{#3}
+% #3,
+% }
+%%% A terminal. The font is \ttfamily
+%%% A terminal. The font is \ttfamily
+\DeclareDocumentEnvironment{admonitionterm}{o m}
+    { % Opening 
+      % Setting a special style for the terminal
+      \tcbset{admonitionboxterm}
+
+      \IfValueTF{#1}
+      {
+	    \begin{admonition}[termcolor][terminal]{~#2}[admonitionboxterm,#1]
+      }
+      {
+	    \begin{admonition}[termcolor][terminal]{~#2}[admonitionboxterm] 
+      }
+    }
+    { % Closing 
+    \end{admonition}
+    }
+
+\DeclareDocumentCommand \createadmonition {m m m}{
+
+    \DeclareDocumentEnvironment{#1}{o m}
+    { % Opening 
+    \begin{admonition}[#2][#3]{~##2}[##1] 
+    }
+    { % Closing 
+    \end{admonition}
+    }
+
+}
+
+\createadmonition{admonitionnote}{notecolor}{tags}
+\createadmonition{admonitiontip}{tipcolor}{thumbs-up}
+\createadmonition{admonitionwarn}{warncolor}{exclamation-circle}
+\createadmonition{admonitionerror}{errorcolor}{times-circle}
+\createadmonition{admonitionquote}{quotecolor}{quote-left}
+
+%###############################################################################
+%                                                                              #
+% message box           {{{2                                                   #
+%                                                                              #
+%###############################################################################
+\tcbset{
+  message/.style={
+    base=#1,
+    center,
+    colback=#1!20,
+    colframe=#1!30,
+    coltitle=darkgray,
+    colbacktitle=#1!45!white, 
+    boxrule=0.4pt,left=5mm,right=2mm,top=1mm,bottom=1mm,
+    fonttitle=\scriptsize\bfseries,
+    sharp corners,
+    rounded corners=east,
+    % arc is angular,
+    arc=5mm,
+    % underlay={%
+    %   \path[fill=tcbcolback!80!black] ([yshift=3mm]interior.south east)--++(-0.3,-0.1)--++(0.1,-0.2);
+    %   \path[fill=#1!30,draw=none] (interior.south west) rectangle node[white]{\tiny \faIcon{info-circle}} ([xshift=5mm]interior.north west);
+    % }, 
+    drop fuzzy shadow,
+  }
+} % End of tcbset
+
+\DeclareTColorBox{boxmessage}{ O{cyan}  m !O{} } {
+    message={#1},
+    % Title 
+    title={#2}, 
+    % Additional options
+    #3
+}
+
+\DeclareDocumentEnvironment{message}{o m}
+    { % Opening 
+        % Checking if title is empty
+        \ifthenelse{\isempty{#2}}%
+            {
+	      \IfNoValueTF{#1}
+	      {\begin{boxmessage}{}[notitle]}
+	      {\begin{boxmessage}{}[notitle,#1]}
+	    }
+        {\begin{boxmessage}{~#2}[#1] }
+    }
+    { % Closing 
+    \end{boxmessage}
+    }
+
+\DeclareDocumentEnvironment{message}{o m}
+    { % Opening 
+        % Checking if title is empty
+        \ifthenelse{\isempty{#2}}%
+            {
+	      \IfNoValueTF{#1}
+	      {\begin{boxmessage}{}[notitle]}
+	      {\begin{boxmessage}{}[notitle,#1]}
+	    }
+        {\begin{boxmessage}{~#2}[#1]}
+    }
+    { % Closing 
+    \end{boxmessage}
+    }
+
+%###############################################################################
+%                                                                              #
+% Focus markup         {{{2                                                   #
+%                                                                              #
+%###############################################################################
+
+% Defines the focus counter to be used by the Focus macro, that changes per page or slide (frame)
+\newcounter{focuscounter}[page]
+\ifdef{\theframe}{\counterwithin{focuscounter}{frame}}{}
+% 
+% ▄┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▄
+% ░ General command to draw a highlighted text with a counter at  ░
+% ░ the leftmost part. It is used as a way to map short text      ░
+% ░ with a increasing number tag                                  ░
+% ▀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▀
+% 
+% \Focus and \Focus* differ in drawing the tag inside a box in the highlighted text, or outside it (the starred version)
+% 
+% The first  optional argument is the color 
+% The second optional argument is the tag. The default tag is the increasing number counter, but any static text can be rendered with this option
+% The mandatory argument is the text to be rendered
+% 
+% \Focus{Focus} -> Creates a highlighted text like [1] Focus. The background is cyan
+% \Focus[blue]{Focus} -> Creates a highlighted text like [1] Focus. The background is blue
+% \Focus[orange][Tip]{Focus} -> Creates a highlighted text like [Tip] Focus. The background is orange and the tag is Tip
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareDocumentCommand \Focus{>{\ReverseBoolean} s O{cyan} O{\thefocuscounter} m }{
+    \stepcounter{focuscounter}%
+    % Checks if star exists. If TRUE create the focus highlight with the circled number INSIDE the box
+    \IfBooleanTF{#1}
+    {%
+      \adjustbox{bgcolor=#2!10}{\adjustbox{margin=1pt,bgcolor=#2!40}{\tiny\CircledTop[inner color=black,outer color=#2,fill color=#2!60]#3}~\adjustbox{margin=0pt 1pt}{#4}} 
+    } % Checks if star exists. If FALSE create the focus highlight with the circled number OUTSIDE the box
+    {%
+      {\tiny\CircledTop[inner color=black,outer color=#2,fill color=#2!60]{#3}}\hspace{0.05em}\adjustbox{margin=1pt,bgcolor=#2!15}{#4}
+    }
+}
+
+% Easier declaration of focus with the tag INSIDE the box. It accepts only one optional parameter that is the color
+\DeclareDocumentCommand \focus{o m}{\Focus[#1]{#2}}
+% Easier declaration of focus with the tag outside the box. It accepts only one optional parameter that is the color
+\DeclareDocumentCommand \focusout{o m}{\Focus*[#1]{#2}}
+
+% ▄┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▄
+% ░ A flexible declaration of the Focus macro that accepts two    ░
+% ░ optional arguments inside a single optional parameter. There  ░
+% ░ should be exactly two comma-separated parameters (no          ░
+% ░ spaces!). e.g \focustag[red,tip]{Text}. In the original       ░
+% ░ Focus macro, this should be specied as: \Focus[red][tip]{Text}░
+% ▀┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▀
+
+% Companion macro to process the focustag optional arguments
+\DeclareDocumentCommand \focusargs {m m m} {%
+\ifstrempty{#1}{~\Focus*{#3}}{~\Focus*[#2][#1]{#3}}%
+}
+% Variant accepts \Focustag[color,tag]{Text}
+\DeclareDocumentCommand \focustag { >{\SplitArgument{1}{,}} o  m}{%
+\IfNoValueTF{#1}{\focus{#2}}{\focusargs#1{#2}} %
+}
+% Variant accepts \Focustag[color][tag]{Text}
+\DeclareDocumentCommand \Focustag { >{\SplitArgument{1}{,}} o  m}{%
+\IfNoValueTF{#1}{\focus{#2}}{\focusargs#1{#2}}%
+}
+
+%###############################################################################
+%                                                                              #
+% List item {{{2                                                   #
+% Using tcolorbox to display list items using the command \listitem[options]{TEXT}                                                                         #
+%
+% It is an automatically numbered box, with the number at the leftmost part and
+% the text itself colored in the background according to the tclistitem style below
+% Useful to replace itemize environment with a flashier list
+% It uses a custom counter that is reset every page or frame
+%###############################################################################
+
+
+
+% Color definition, if not provided
+\colorprovide{ListItemBG}{cyan!15}
+\colorprovide{ListItemNumberFG}{cyan!60}
+\colorprovide{ListItemNumberBG}{black!95}
+%
+% The style of the list items
+% 
+\tcbset{% tclistitem {{{3
+    tclistitem/.style={
+	enhanced, 
+	nobeforeafter,
+	% frame hidden, 
+	title hidden,	
+	sidebyside,
+	bicolor, 
+	sidebyside align=center seam,
+	sidebyside adapt=left, 
+	sidebyside gap=1em,
+	lefthand width=1mm,
+	size=fbox,
+    % Text backgroundj
+	colbacklower=ListItemBG,
+    % Number background and text color (colupper)
+	colback=ListItemNumberBG, 
+	colupper=ListItemNumberFG,
+	rounded corners=west,
+	sharp corners=east,
+	arc=8pt,
+	flushleft upper,
+	boxrule=1pt,
+	toprule=0mm,bottomrule=0mm,
+	colframe=ListItemNumberFG!90,
+	% leftrule=3mm,
+    }
+} % end of tclistitem 
+
+% Defines the focus counter to be used by the Focus macro, that changes per page or slide (frame)
+\newcounter{listcounter}[page]
+\ifdef{\theframe}{\counterwithin{listcounter}{frame}}{}
+
+%%% Now declaring the tcolorbox. The counter (listcounter) is displayed at the left (upper) part, since it is sidebyside. The contents are displayed in the right part (after \tcblower)
+\DeclareTotalTColorBox{\tclistitem}{o m}{
+tclistitem,IfValueT={#1}{#1}
+}{\thelistcounter\tcblower#2}
+
+%%% The command itself updates the counter, removes paragraph spacing and renders the box.
+%%% Usage: 
+%%%%%  \listitem{Text to be displayed}
+%%%%%  \listitem[colframe=red]{Text to be displayed} -> changes the color of the box frame. The options are passed directly to tcolorbox
+
+\DeclareDocumentCommand{\listitem}{o m}{
+\stepcounter{listcounter}\parindent0pt\tclistitem[#1]{#2}
+}
+
+%###############################################################################
+%                                                                              #
+% Listings              {{{2                                                   #
+%                                                                              #
+%###############################################################################
+
+%
+% Settings for code without listings package environments
+%
+
+% unb list style {{{3
+% Creating color boxes for listings 
+%
+\lstdefinestyle{lstunb}{
+  numbers          = left,
+  xleftmargin      = 0.6em,
+  framexleftmargin = 0.4em,
+  frame=none,
+  basicstyle=\scriptsize\ttfamily, % print whole listing small
+  showstringspaces=false
+  aboveskip        = 0.1em,
+  belowskip        = 0.1em,
+  abovecaptionskip  = 0em,
+  belowcaptionskip  = 0em,
+  escapeinside      = {/*@}{@*/}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% shell list style {{{3
+% This is a style that emulates a shell session 
+%
+% The important thing is to typeset the commands
+% inside the characters (- ... -). This will
+% appear as a 'stringstyle', whereas the rest will appear
+% as the 'basicstyle' 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstdefinestyle{shell}{
+  style=lstunb,
+  keywordstyle=\color{orange}\bfseries,
+  commentstyle=\color{yellow!80}, % white comments
+  stringstyle=\color{red!50}\sffamily, % typewriter type for strings
+  comment=[l]{\%},
+  morecomment=[l]\%,
+  morecomment=[l][keywordstyle]{//},
+  morecomment=[f][commentstyle][0]{=},
+  morecomment=[l][commentstyle]{`},
+  numberstyle=\color{red!60}\tiny,
+  escapeinside={(-}{-)}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Ubuntu terminal {{{2
+% This environment emulates a 
+% \begin{ubuntu} ... \end{ubuntu}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTCBListing{ubuntu}{ o !O{} }{
+  verbatim,colback=violet!50!black,hbox,
+  colupper=yellow!70!white,colframe=gray!65!black,
+  listing only, listing engine=listings,
+  listing options={style=shell,numbers=left},
+  fonttitle={\ttfamily \scriptsize},
+  title={\textcolor{red}o\textcolor{orange!70}o\textcolor{green}o #1},
+  #2
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% bash terminal {{{2 
+% This environment emulates a 
+% \begin{bash} ... \end{bash}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareTCBListing{bashterm}{ o !O{} }{
+  verbatim, breakable,hbox,
+  bottom=0pt,left=0pt,top=0pt,      
+  colback=black,colupper=white,colframe=yellow!65!black,
+  % bottomrule=2pt,rightrule=2pt,     
+  % drop fuzzy shadow, sharp corners=downhill,
+  listing only,
+  listing options={language=bash,style=shell},
+  fonttitle={\ttfamily \scriptsize},
+  title={#1},
+  #2
+}
+
+
+%
+% Inline text {{{2
+%
+\tcbset{
+  tcinline/.style={% split/.style{{{2
+    enhanced,
+    on line,
+    % nobeforeafter,
+    % tcbox raise base,
+    % top=0pt,bottom=-2pt,left=0em,right=0mm,
+    % leftrule=2pt,rightrule=2pt,toprule=0.1mm,bottomrule=0.1mm,
+    size=minimal,
+    fontupper=\ttfamily,
+    colback=#1!10,
+    colframe=#1!30,
+    % fonttitle=\Tiny,
+    % boxsep=0.3mm,
+    % coltitle=gray,lefttitle=-0.5em,bottomtitle=-0.1mm,titlerule=0.1mm,boxsep=0mm
+    }
+}
+
+\DeclareTotalTCBox{\inlineText}{ O{red} m O{} }
+{
+  tcinline=#1,#3
+}{#2}
+
+% \DeclareTotalTCBox{\inlineText}{ O{red} m !O{} }
+% {
+% enhanced,fontupper=\ttfamily,nobeforeafter,tcbox raise base,arc=0pt,outer arc=0pt,
+% top=0pt,bottom=0pt,left=0mm,right=0mm,
+% leftrule=0pt,rightrule=0pt,toprule=0.1mm,bottomrule=0.3mm,boxsep=0.5mm,
+% colback=#1!10,
+% colframe=#1!30,
+% fonttitle=\Tiny,coltitle=gray,lefttitle=-0.5em,bottomtitle=-0.1mm,titlerule=0.1mm,boxsep=0mm,
+% #3
+% }{#2}
+
+\NewDocumentCommand \file    {m}{\inlineText[cyan]{\strut#1}}
+\NewDocumentCommand \fileI   {m}{\inlineText[cyan]{\strut#1}[before upper={\faFile~}]}
+\NewDocumentCommand \key     {m}{\inlineText[darkgray]{#1}}
+\NewDocumentCommand \keyI    {m}{\inlineText[darkgray]{#1}[before upper={\faKey~}]}
+\NewDocumentCommand \dir     {m}{\inlineText[green]{\strut#1}}
+\NewDocumentCommand \dirI    {m}{\inlineText[green]{\strut#1}[before upper={\faFolderOpen~}]}
+\DeclareDocumentCommand \cli {m}{\inlineText[blue]{#1}}
+\DeclareDocumentCommand \cliI{m}{\inlineText[blue]{#1}[before upper={\faTerminal~},frame hidden]}
+\NewDocumentCommand \youtube {m}{\inlineText[red]{#1}}
+\NewDocumentCommand \youtubeI{m}{\inlineText[red]{#1}[before upper={\faYoutube~}] }
+\NewDocumentCommand \wiki    {m}{\inlineText[orange]{#1} }
+\NewDocumentCommand \wikiI   {m}{\inlineText[orange]{#1}[before upper={\faWikipediaW~},frame hidden]}
+\NewDocumentCommand \pubmed  {m}{\inlineText[blue!50!white]{#1}}
+\NewDocumentCommand \pubmedI {m}{\inlineText[blue!50!white]{#1}[before upper={\aiPubMed~},frame hidden]}
+\NewDocumentCommand \doi     {m}{\inlineText[blue!50!white]{#1}}
+\NewDocumentCommand \doiI    {m}{\inlineText[blue!50!white]{#1}[before upper={\aiDoi~},frame hidden]}
+
+
+%
+% Inline bash command {{{3
+% from tcolorbox page 459
+% with a * typesets a prompt and highlights the first command. Without it prints a plain black box
+%\commandbox*{cd "My Documents"} changes to directory \commandbox{My Documents}.
+%
+\DeclareTotalTCBox{\bash}{ s m } {
+  verbatim,colupper=yellow,colback=black!75!white,colframe=black,
+  top=0pt,bottom=0pt,left=0mm,right=0mm,
+} {
+  \IfBooleanF{#1}{\textcolor{green!80}{\scriptsize\ttfamily\% }}%
+  \lstinline[language=bash,style=shell]^#2^
+  }
+
+\NewTotalTCBox{\shell}{ m } {
+  verbatim,colupper=yellow,colback=black!65!white,colframe=black,
+  top=0pt,bottom=0pt,left=0mm,right=0mm,
+} {
+  % Prompt
+  % \textcolor{orange!50}{\ttfamily\bfseries \% }%
+  % Command
+  \lstinline[language=bash,style=shell]^#1^
+  }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Rendering markdown inside a tcolorbox with sidebyside layout {{{1
+% This requires the filter markdown-render.lua
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%% Style for creating the sidebyside box 
+\tcbset{
+  tccodebox/.style={ % tccodebox {{{2
+    enhanced, 
+    breakable,
+    frame empty,
+    nobeforeafter,
+    % Two columns aligned at the top
+    sidebyside,
+    sidebyside align=top,
+    sidebyside gap=5pt,
+    tile,
+    % allows different pane colors
+    bicolor,
+    arc = 8pt,
+    % fonts
+    %% Left pane
+    fontupper = \ttfamily,
+    %% Right pane
+    fontlower = \sffamily,
+    % Colors 
+    %% Left pane
+    colback=cyan!10,
+    %% Right pane
+    colbacklower=green!2,
+    % lower separated=false,
+    right=2pt,
+    leftlower=0pt,rightlower=0pt,middle=0pt,
+    % leftupper=0mm,
+    % leftlower=0mm,
+    % middle=0mm,
+    % rightupper=0mm,
+    size=fbox,
+    oversize,
+    sharp corners=north,
+    drop fuzzy shadow,
+    %% How to render the box with the subtitle
+    subtitle style = {
+      enhanced,
+      frame empty,
+      % shrink tight,
+      % The 3 lines below position the subtitle
+      nobeforeafter,
+      after={\par\vspace{10pt}\noindent},
+      top=0mm,
+      boxsep=3pt,
+      % top=-5ex,
+      left=0mm,
+      right=0mm,
+      % drop fuzzy shadow,
+      fontupper = \sffamily\bfseries,
+      colback = black!10,
+      coltext = black!70,
+      % width = 3cm,
+      arc = 4pt,
+      rounded corners% = east 
+    },
+    %%% The upper frame that embelishes the box
+    colbacktitle=BoxTitle,
+    colframe=BoxTitle,
+    attach boxed title to top left={xshift=-4mm,yshift=-0.5mm},
+    underlay boxed title={
+      \fill[BoxTitle] (title.north west) -- (title.north east) -- +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm) -- ([xshift=4mm,yshift=0.5mm]frame.north east) -- +(0mm,-1mm) -- (title.south west) -- cycle;
+      \fill[BoxTitleShade] ([yshift=-0.5mm]frame.north west) -- +(-0.4,0) -- +(0,-0.3) -- cycle;
+      \fill[BoxTitleShade] ([yshift=-0.5mm]frame.north east)
+      -- +(0,-0.3) -- +(0.4,0) -- cycle; 
+    }%,
+    % title={Box title expands to this},
+  }
+}% End of tcbset tccodebox
+
+% ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░┤ split class ├░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+% ▶………………………………………………………………………………………………………………………………………░ split tcolorboxes  {{{1
+% Default style for the split extension
+\tcbset{
+  split/.style={% split/.style{{{2
+    enhanced, 
+    breakable,
+    nobeforeafter,
+    % Two columns aligned at the top
+    sidebyside,
+    sidebyside align=top,
+    sidebyside gap=5pt,
+    tile,
+    % allows different pane colors
+    bicolor,
+    arc = 8pt,
+    % fonts
+    %% Left pane
+    fontupper = \scriptsize,
+    %% Right pane
+    fontlower = \scriptsize,
+    % Colors 
+    %% Left pane
+    colback=cyan!10,
+    %% Right pane
+    colbacklower=green!3,
+    % lower separated=false,
+    right=2pt,
+    leftlower=0pt,rightlower=0pt,middle=0pt,
+    height fill=true, % use all slide space
+    size=fbox,
+    oversize,
+    sharp corners=north,
+    drop fuzzy shadow,
+    %% How to render the box with the subtitle
+    subtitle style = {
+      enhanced,
+      % hide the background color
+      opacityback=0,
+      frame empty,
+      shrink tight,
+      nobeforeafter,
+      % title is bold
+      fontupper = \sffamily\bfseries,
+      coltext = black!70,
+    },
+    %%% The upper frame that embelishes the box
+    colbacktitle=BoxTitle,
+    colframe=BoxTitle,
+    frame hidden,
+    attach boxed title to top left={xshift=-4mm,yshift=-0.5mm},
+    underlay boxed title={
+      \fill[BoxTitle] (title.north west) -- (title.north east) -- +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm) -- ([xshift=4mm,yshift=0.5mm]frame.north east) -- +(0mm,-1mm) -- (title.south west) -- cycle;
+      \fill[BoxTitleShade] ([yshift=-0.5mm]frame.north west) -- +(-0.4,0) -- +(0,-0.3) -- cycle;
+      \fill[BoxTitleShade] ([yshift=-0.5mm]frame.north east)
+      -- +(0,-0.3) -- +(0.4,0) -- cycle; 
+    }%,
+    % title={Box title expands to this},
+  }
+}% End of tcbset split
+
+% ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┤ A black background variant ├┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+\tcbset{
+  splitblack/.style={% splitblack/.style{{{2
+    split, % inherits from split
+    frame hidden,
+    collower=white,
+    colbacklower=black
+  }
+}
+% ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┤ All blank columns (white bg) ├┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+\tcbset{
+  splitblank/.style={% splitblank/.style{{{2
+    split, % inherits from split
+    frame hidden,
+    colbacklower=white,
+    colback=white
+  }
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% split image tcolorbox {{{2
+%%%% tccolorbox environment to display text and images in a side by side manner. Can be used by the split.lua filter 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\tcbset{
+    splitimage/.style={
+       split, % The box that will be used
+       % Overriding some of the default options 
+       left=0mm,
+       right=0mm,
+       fontupper=\rmfamily,
+       left=7pt,
+       width=\paperwidth,
+       colbacklower=white,
+       height fill=maximum, % Uses all page space
+       no shadow,
+       frame hidden
+    }
+}
+
+% ┅┅┅┅┅┅┅┅┅┅┅┅┅┤ This is the same as tcimage, but with black bg ├┅┅┅┅┅┅┅┅┅┅
+\tcbset{
+    splitimageblack/.style={
+       splitblack, % inherits from this style
+    }
+}
+
+% ▶……………………………………………………………………………………………………………………………………░ markdownrender box  {{{1
+% 
+%%% Definition of the markdownrender box 
+% Optional arguments
+% 3. Title - If not present does no render the title
+% 1. Left title - Default Code 
+% 2. Right title - Default Rendered 
+% 4. Additional arguments. Ex: [colbacklower=green!20] to change the background of the right panel
+% 
+% Example: 
+%  \begin{codebox}[This is the title][LEFT][RIGHT][colback=BoxTitle]
+\DeclareTColorBox{markdownrender}{o O{Code} O{Rendered} o }{
+  tccodebox,
+  % If subtitle string is empty, do not render it
+  before upper=\ifstrempty{#2}{}{\tcbsubtitle{#2}},
+  before lower=\ifstrempty{#3}{}{\tcbsubtitle{#3}},
+%   before upper=\tcbsubtitle{#2}, % Title left pane
+%   before lower=\tcbsubtitle{#3}, % Title right pane 
+  % Renders the title, if the option is present
+  IfValueT={#1}{title={#1}},%,
+  % Renders the optional values
+  IfValueT={#4}{#4}
+}
+
+
+
+% ▶ Text size commands {{{1 ………………………………………………………………………………………………………………………………………
+\DeclareDocumentCommand{\larger}{O{1} m}{ \textlarger[#1]{#2} }
+\DeclareDocumentCommand{\smaller}{O{1} m}{ \textsmaller[#1]{#2} }
+\DeclareDocumentCommand{\half}{O{1} m}{ \textscale{0.5}{#2} }
+\DeclareDocumentCommand{\double}{O{1} m}{ \textscale{2}{#2} }
+
+% ▶ Text color commands {{{1 ………………………………………………………………………………………………………………………………………
+\DeclareDocumentCommand{\colortext}{O{red} m}{{\color{#1}#2}}
+\DeclareDocumentCommand{\red}{m}{{\colortext[red]{#1}}}
+
+% ▶………………………………………………………………………………………………………………………………… Text style commands {{{1
+ % ▶┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┤ A customizable text box. Plain text at first {{{2 ├┈┈┈┈┈┈┈┈┈┈┈┈
+\DeclareDocumentCommand{\flextext}{O{} m}{\tcbox[tctext, #1]{#2}}
+\DeclareDocumentCommand{\flextextcolor}{O{black} o m}{\tcbox[tctextcolor=#1,#2]{#3}}
+\DeclareDocumentCommand{\tt}{m}{\texttt{#1}}   % typewriter - monospace
+\DeclareDocumentCommand{\tttiny}{m}{\tiny\texttt{#1}}   % typewriter - monospace
+\DeclareDocumentCommand{\mono}{m}{{\ttfamily#1}} % typewriter - monospace
+\DeclareDocumentCommand{\monotiny}{m}{{\tiny\ttfamily#1}} % typewriter - monospace
+\DeclareDocumentCommand{\monored}{m}{{\ttfamily\colortext[red]{#1}}} % red - monospace
+\DeclareDocumentCommand{\monoblue}{m}{{\ttfamily\colortext[blue]{#1}}} % blue - monospace
+\DeclareDocumentCommand{\monohl}{m}{{\ttfamily\hl{#1}}} % highlighted - monospace
+\DeclareDocumentCommand{\rm}{m}{\textrm{#1}}   % roman 
+\DeclareDocumentCommand{\sf}{m}{\textsf{#1}}   % Sans serif
+\DeclareDocumentCommand{\bold}{m}{\textbf{#1}} % bold
+\DeclareDocumentCommand{\it}{m}{\textit{#1}}   % italic
+\DeclareDocumentCommand{\ve}{m}{{\ttfamily\Verb|#1|}}   % verbatim
+\DeclareDocumentCommand{\vetiny}{m}{{\tiny\ttfamily\Verb|#1|}}   % verbatim
+\DeclareDocumentCommand{\alerted}{m}{{\usebeamercolor[fg]{alerted text}\ttfamily\Verb|#1|}}   % alerted text
+\DeclareDocumentCommand{\example}{m}{{\usebeamercolor[fg]{example text}\ttfamily\Verb|#1|}}   % example text
+\DeclareDocumentCommand{\warn}{m}{{\usebeamercolor[fg]{warn text}\ttfamily\Verb|#1|}}   % alerted text
+\DeclareDocumentCommand{\hint}{m}{ {\usebeamercolor[fg]{hint text}\ttfamily#1} }   % verbatim
+
+\DeclareDocumentCommand{\text}{m}{ {
+  \usebeamercolor[fg]{hint text}\ttfamily#1} 
+}   % verbatim
+
+% ▶………………………………………………………………………………………………………………………………………… Horizontal rules {{{1
+
+
+\DeclareDocumentCommand{\ruletitled}{O{hint} m}{ 
+  {\usebeamercolor[fg]{#1 text}\noindent\hrulefill\strut~\emph{#2}~\noindent\hrulefill} 
+}   % Rule with title
+
+% Rule with the color provided as an option
+\DeclareDocumentCommand{\rule}{O{blue} m}{ 
+  \begingroup
+    \color{#1}%
+    \ifthenelse{\isempty{#2}}
+    {% Nothing in the text
+    \noindent\hrulefill%
+    }
+    {%
+    \noindent\hrulefill\strut~\emph{#2}~\noindent\hrulefill%
+    }
+  \endgroup
+}   % Rule with title
+
+
+% ▶…………………………………………………………………………………………………………░ Customizable horizontal rule  {{{2
+
+% ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┤ Custom options to use in \hr command ├┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+\pgfkeys{
+    /customrule/.is family, /customrule,
+    default/.style = {
+        color=ExampleColor!50,
+        bg=ExampleColor!50,
+        width=0.8em,
+        pos=center,
+        fg=black
+    },
+    color/.store in = \customrulecolor,
+    bg/.store in = \customrulecolor,
+    width/.store in = \customrulewidth,
+    pos/.store in = \customrulepos,
+    fg/.store in = \customrulefg
+}
+
+% ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┤ A customizable \hrule ├┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+% variable height and color for hrule
+% https://tex.stackexchange.com/questions/17124/what-is-the-rule-equivalent-to-hrule/17130#17130
+% \DeclareDocumentCommand{\customhfill}{O{0.8em} O{HintColor!30}} {
+\DeclareDocumentCommand{\customhfill}{O{0.8em} O{black}} {
+  \begingroup
+  \color{#2} % color
+  \leavevmode\leaders\hrule height#1\hfill\kern0pt
+  \endgroup
+}
+
+% ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┤ Defining \hr ├┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+%%
+% Draws an horizontal rule with several options to customize its appearance
+% Usage: \hr[<option>]{<text}}
+% Parameters
+% <options>: An optional argument that allows you to specify key-value pairs to customize the rule's appearance. The following keys are available:
+% color=<color>: Specifies the color of the rule. You can use any color name defined in the xcolor package (e.g., red, blue, green, etc.). The default color is black.
+% width=<length>: Defines the line width of the rule. You can specify the width using standard LaTeX length units (e.g., 1pt, 2mm, 0.5cm, etc.). The default width is 0.8em, which is roughly the text height.
+% pos=<position>: Determines the position of the text relative to the rule. Acceptable values are:
+%   left: The text will be aligned to the left of the rule.
+%   right: The text will be aligned to the right of the rule.
+%   center: The text will be centered above the rule. The default position is center.
+% <text>: A mandatory argument that specifies the text to be placed in relation to the rule.
+%
+% \hr{my text}  - centered text with enclosing rules over the paragraph length
+% \hr[fg=red,pos=left,color=blue]{my text}  - text at the beginning, colored in red. The rule is blue
+%
+\DeclareDocumentCommand{\hr}{O{} m}{
+    \pgfkeys{/customrule, default, #1} % Parse the options
+\begingroup
+    \color{\customrulecolor} % Set the color
+    \noindent
+    \ifthenelse{\equal{\customrulepos}{left}}{%
+        % Left-aligned text
+      {\color{\customrulefg}\strut#2}\customhfill[\customrulewidth][\customrulecolor]
+    }{%
+    \ifthenelse{\equal{\customrulepos}{right}}{%
+        % Right-aligned text
+      \customhfill[\customrulewidth][\customrulecolor]~{\color{\customrulefg}#2}
+    }{%
+        % Centered text
+        \ifstrempty{#2}{
+          % If no text, then draw the Separator
+	  \customhfill[\customrulewidth][\customrulecolor]
+        }
+        {
+	  \customhfill[\customrulewidth][\customrulecolor]~{\color{\customrulefg}#2}\customhfill[\customrulewidth][\customrulecolor]
+        }
+    }}
+    \endgroup
+}
+
+
+\DeclareDocumentCommand{\ruledouble}{O{blue}}{ {\color{#1}
+\vspace{6pt}
+\hrule
+\vspace{3pt}
+\hrule\vspace{6pt}
+}
+}   % Rule with title
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Shaded environment for all code boxes {{{1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\colorprovide{CodeBoxBG}{gray!15}
+\tcbset{
+    tcshaded/.style={
+        enhanced, 
+        nobeforeafter,
+	    breakable, 
+	    minipage,
+        size=fbox,
+	    grow to right by=4mm,
+	    flush left,
+	    fit fontsize macros,
+	    boxsep=0pt,
+	    left=0mm,
+	    tcbox width=forced right,
+	    hyphenationfix=true,
+        fontupper=\scriptsize\ttfamily,
+        colback=CodeBoxBG, 
+        colframe=CodeBoxBG!90!black,
+        lifted shadow={1mm}{-2mm}{3mm}{0.1mm}{black!50!white},
+        boxrule=1pt
+    }
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Shaded environment {{{1
+% Redefining the Shaded environment, used for code
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \ifdefined\Shaded\renewenvironment{Shaded}{
+%     \begin{tcolorbox}[tcshaded]}
+%     {\end{tcolorbox}}\fi
+
+% Changing the font size in the Shaded environment
+\AtBeginEnvironment{Shaded}{\tiny}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% texttt environment {{{1
+% Redefining the texttt command to render text
+% used for code in markdown `code text` (backticks)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\colorprovide{CodeBoxBG}{black!95}
+% Customizing mono font to add a background 
+\tcbset{
+    tcttstyle/.style={
+    enhanced, 
+    frame empty,
+    nobeforeafter,
+    box align=base,
+    % fontupper = \tiny\ttfamily,
+    fontupper = \ttfamily,
+    coltext=CodeTTFG,
+    colback=#1,
+    size=tight,
+    oversize
+  }
+}% End of tcbset tcttstyle
+
+% Defining the tcolorbox
+\NewTotalTCBox{\codett}{ O{CodeTTBG} m !O{} }{
+  tcttstyle=#1,#3
+}{#2}
+
+\let\Oldtexttt\texttt
+% \renewcommand{\texttt}[1]{\codett{#1}}
+% \renewcommand{\texttt}[1]{\keyword{#1}}
+\renewcommand{\texttt}[1]{\hlcode{#1}}
+
+% ▶………………………………………………………………………………………………………………………………░ Verbatim environment  {{{1
+% ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┤ Styles the verbatim environment ├┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+  \tcbset{ %tcverbatim {{{3
+  tcverbatim/.style={
+    enhanced,
+    nobeforeafter,
+    verbatim,
+    left=-1pt,
+    colback=lightgray!40,     % Background color
+    colframe=lightgray!70,        % Frame color
+    colupper=blue!80!black,
+    boxrule=0.3mm,        % Thickness of the box border
+    sharp corners,         % Sharp corners
+    fonttitle=\bfseries,   % Title font
+    fontupper=\ttfamily\footnotesize,
+    before=\par\footnotesize,    % Small font size
+    after=\par,           % End of box
+    % drop shadow southeast=gray, % Optional shadow effect
+    listing options={
+        basicstyle=\ttfamily, % Monospace font
+        columns=fullflexible, % Flexible column width
+        keepspaces=true,      % Keep spaces
+        escapeinside={(*@}{@*)} % Escape for LaTeX
+    }
+  }
+}
+% Wrapping verbatim inside a tcolorbox
+\tcolorboxenvironment{verbatim}{tcverbatim}
+
+
+
+%%%%%% End of before-titme.tex %%%%%%%%%%%%%%%%%%%%
+

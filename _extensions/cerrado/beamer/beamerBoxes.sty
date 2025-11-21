@@ -1,0 +1,442 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  LaTeX style containing formatting utilities to style
+%  slides
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Georgios Pappas Jr
+%  University of Brasilia (UnB) - Brazil
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\ProvidesPackage{beamerBoxes}
+
+\RequirePackage{colortbl}
+% \RequirePackage{color}
+\RequirePackage{fancyvrb}
+% \RequirePackage{pgfpages}
+\RequirePackage{amsmath,amssymb}
+\RequirePackage{iftex}
+\RequirePackage{framed}
+\RequirePackage{calc} % for calculating minipage widths
+\RequirePackage[normalem]{ulem}
+\RequirePackage{fontawesome5} 
+\RequirePackage{academicons} 
+\RequirePackage{varwidth} % for tcolorbox
+\RequirePackage[most]{tcolorbox} 
+\RequirePackage{circledsteps} 
+\RequirePackage[framemethod=TikZ]{mdframed}
+\tcbuselibrary{skins,xparse,breakable,fitting,listings,documentation}
+\usetikzlibrary{shadows}
+
+% \RequirePackage{longtable,booktabs,array}
+% \RequirePackage{caption}
+% \RequirePackage{awesomebox} % Georgios Pappas Jr
+
+
+%%%%%% Package fixes {{{2
+
+% Make caption package work with longtable
+%@@` ` \makeatletter
+% \def\fnum@table{\tablename~\thetable}
+% \makeatother
+
+% Avoid problems with \sout in headers with hyperref
+%@@\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+
+%  Colors {{{1 
+\definecolor{aliceblue}{rgb}{0.94, 0.97, 1.0}
+\definecolor{bisque}{rgb}{1.0, 0.89, 0.77}
+% Background color for code boxes
+% \definecolor{shadecolor}{rgb}{0.1,0.1,0.1}
+\colorlet{shadecolor}{black!90}
+% Frame color for code boxes
+\definecolor{framecolor}{rgb}{1.0,0.1,0.1}
+% Font color for the prompt inside code boxes
+\definecolor{promptcolor}{rgb}{1.0,1.0,0.1}
+% Font color for text inside code boxes
+\definecolor{terminalcolor}{rgb}{0.0,1.0,1.0}
+
+%%%% Colors for styling boxes {{{2
+\colorlet{notecolor}{cyan}
+\colorlet{tipcolor}{OliveGreen}
+\colorlet{errorcolor}{red}
+\colorlet{warncolor}{orange}
+\colorlet{termcolor}{black}
+\colorlet{quotecolor}{Lavender}
+
+
+%###############################################################################
+%                                                                              #
+% Boxes and admonitions {{{1                                                   #
+%                                                                              #
+%###############################################################################
+
+%
+% Tcolorbox settings {{{2
+%
+\tcbset{ boxmessage/.style={
+  listing outside text,sidebyside,sidebyside adapt=both,colframe=aliceblue,colback=aliceblue,colbacklower=orange,
+  [orange][exclamation-circle]
+}
+}
+
+\tcbset{ mydocexample/.style={listing outside text,sidebyside,sidebyside
+adapt=both,colframe=cyan!20,colback=cyan!10,
+            % before skip=\medskipamount,after skip=\medskipamount,
+			% comment style={colback=red},
+            fontlower=\footnotesize}
+        }
+
+\tcbset{ docexample/.style={colframe=cyan!15,colback=cyan!10,sidebyside,listing
+outside text}}
+
+%
+% Message boxes with a title on top with an icon {{{2
+%
+% A message in a box
+% It is an environment with the syntax: 
+% \begin{message}[title][color][font awesome icon name]
+% \begin{message}
+%    default without title color=cyan and info-circle icon
+% \begin{message}[my title][blue]
+% \begin{message}[Error][red][bug]
+%    Title=Error, color=red, icon=bug
+% \begin{message}[][red][bug]
+%    Title=NOT SHOWN, color=red, icon=bug
+%
+
+\DeclareTColorBox{message}{ o O{cyan} O{info-circle} !O{} }{
+  enhanced,skin=enhancedlast jigsaw,
+  attach boxed title to top left={xshift=-2mm,yshift=-0.5mm}, 
+  rounded corners=southeast,arc is angular,arc=3mm,
+  drop lifted shadow=black,
+  varwidth boxed title=0.7\linewidth, 
+  colback=#2!10,
+  colbacktitle=#2!45!white, 
+  boxed title style={empty,arc=0pt,outer arc=0pt,boxrule=0pt},
+  % Box title
+  underlay boxed title={
+	\fill[#2!45!white] (title.north west) -- (title.north east) -- +(\tcboxedtitleheight-1mm,-\tcboxedtitleheight+1mm) -- ([xshift=2mm,yshift=0.5mm]frame.north east) -- +(0mm,-1mm) -- (title.south west) -- cycle; 
+    \fill[#2!45!white!50!black] ([yshift=-0.5mm]frame.north west)
+       -- +(-0.2,0) -- +(0,-0.3) -- cycle; 
+    \fill[#2!45!white!50!black] ([yshift=-0.5mm]frame.north east)
+       -- +(0,-0.3) -- +(0.2,0) -- cycle;  
+  },
+  % Title 
+  IfValueTF={#1}{title={\faIcon{#3} #1},fonttitle=\bfseries,tile}{frame hidden},
+  % Additional options
+  #4
+}
+
+\newenvironment{messagenote}[1][] {\begin{message}[#1][notecolor][tags]       }{\end{message} }
+\newenvironment{messagetip}[1][]  {\begin{message}[#1][tipcolor][thumbs-up] }{\end{message} }
+\newenvironment{messageerror}[1][]{\begin{message}[#1][errorcolor][times-circle]}{\end{message} }
+\newenvironment{messagewarn}[1][] {\begin{message}[#1][warncolor][exclamation-circle]}{\end{message} }
+\newenvironment{messageterm}[1][]
+{\begin{message}[#1][termcolor][terminal][fonttitle=\ttfamily,fontupper=\ttfamily]} { \end{message} }
+\newenvironment{messagequote}[1][]{\begin{message}[#1][quotecolor][quote-left][fonttitle=\itshape,coltitle=Sepia,fontupper=\itshape]}{\end{message}}
+
+
+
+% Sticker boxes {{{2
+% Defines \stickerbox command. 
+% Creates a box with its contents fitted to the frame
+% IMPORTANT: ONLY single lines are permitted. Paragraphs and 
+%            other markup is not rendered
+% 
+% USAGE:
+%   \stickerbox{message}
+%		cyan box with an info icon and text
+%   \stickerbox*{message}
+% 		The starred version does not contain an icon
+%   \stickerbox[red]{message}
+%		Changing the color: red box with an info icon and text
+%   \stickerbox*[red]{message}
+%		Changing the color: red box with and NO icon 
+%   \stickerbox[red][bug]{message}
+%		Changing the color and icon: red box with a bug icon and text
+%   \stickerbox[][bug]{message}
+%		Changing the icon cyan box with a bug icon and text
+%   \stickerbox[GreenOlive][thumbs-up][drop shadow]{message}
+%		Changing the icon cyan box with a bug icon and text. Additional option
+%		can be passed in the third argument [drop shadow] 
+%
+%
+\DeclareTCBox{\stickerbox}{ s O{cyan} O{info-circle} !O{}  }{
+  enhanced,hbox,size=fbox,
+  boxrule=0.4pt,
+  right=2mm,top=1mm,bottom=1mm,
+  IfBooleanTF={#1}{left=1mm}{left=5mm},
+  colback=#2!30,
+  colframe=#2!50,
+  sharp corners,rounded corners=southeast,arc is angular,arc=3mm,
+  % ifBooleanT={#1} { % Starred version does not contain icon
+	underlay={%
+	  \path[fill=tcbcolback!80!black] ([yshift=3mm]interior.south east)--++(-0.3,-0.1)--++(0.0,-0.2);
+	  \IfBooleanF {#1} {		
+		\path[fill=#2!50,draw=none] (interior.south west) rectangle node[white]{
+		  \large\bfseries \faIcon{#3}} ([xshift=5mm]interior.north west);
+	  }
+
+		% }
+  },
+	#4
+}
+
+%
+% Custom stickerboxes {{{3
+%   The ones ending with an I contain the icon
+\NewDocumentCommand \sticker      {m} { \stickerbox*{#1} }
+\NewDocumentCommand \stickerI     {m} { \stickerbox{#1}  }
+\NewDocumentCommand \stickerterm  {m} { \stickerbox*[termcolor][][fontupper=\ttfamily]{#1} }
+\NewDocumentCommand \stickertermI {m} { \stickerbox[termcolor][terminal][fontupper=\ttfamily]{#1}  }
+\NewDocumentCommand \stickererror {m} { \stickerbox*[errorcolor]{#1} }
+\NewDocumentCommand \stickererrorI{m} { \stickerbox[errorcolor][times-circle]{#1}  }
+\NewDocumentCommand \stickerwarn  {m} { \stickerbox*[warncolor]{#1} }
+\NewDocumentCommand \stickerwarnI {m} { \stickerbox[warncolor][exclamation-circle]{#1}  }
+
+%%% Inline versions of the stickers above
+\NewDocumentCommand \inlinesticker      {m} { \stickerbox*[notecolor][][on line]{#1} }
+\NewDocumentCommand \inlinestickerI     {m} { \stickerbox[notecolor][info-circle][on line]{#1}  }
+\NewDocumentCommand \inlinestickerterm  {m} { \stickerbox*[termcolor][][on line,fontupper=\ttfamily]{#1} }
+\NewDocumentCommand \inlinestickertermI {m} { \stickerbox[termcolor][terminal][on line,fontupper=\ttfamily]{#1}  }
+\NewDocumentCommand \inlinestickererror {m} { \stickerbox*[errorcolor][][on line]{#1} }
+\NewDocumentCommand \inlinestickererrorI{m} { \stickerbox[errorcolor][times-circle][on line]{#1}  }
+\NewDocumentCommand \inlinestickerwarn  {m} { \stickerbox*[warncolor][][on line]{#1} }
+\NewDocumentCommand \inlinestickerwarnI {m} { \stickerbox[warncolor][exclamation-circle][on line]{#1}  }
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%% Custom admonition boxes{{{2
+%
+% This a general box with icons at top left, optional title
+%
+\DeclareTColorBox{admonitionbox}{ O{red} m !O{} } {
+enhanced,colframe=#1!75!black,colback=#1!10,coltitle=#1,minipage,
+lefttitle=-1mm,bottomtitle=-3mm,frame hidden,
+fontupper=\footnotesize\sffamily,
+fonttitle=\bfseries,title=\small{#2}, #3
+}
+
+\newenvironment{admonitionnote}[1][\unskip] { \begin{admonitionbox}[notecolor]{\faTags} #1         } { \end{admonitionbox} }
+\newenvironment{admonitiontip}[1][\unskip]  { \begin{admonitionbox}[tipcolor]{\faThumbsUp #1}    } { \end{admonitionbox} }
+\newenvironment{admonitionerror}[1][\unskip]{ \begin{admonitionbox}[errorcolor]{\faTimesCircle#1}   } { \end{admonitionbox} }
+\newenvironment{admonitionwarn}[1][\unskip] { \begin{admonitionbox}[warncolor]{\faExclamationCircle #1} } { \end{admonitionbox} }
+\newenvironment{admonitionterm}[1][\unskip] { \begin{admonitionbox}[termcolor]{\faTerminal #1} \ttfamily } { \end{admonitionbox} }
+\newenvironment{admonitionquote}[1][\unskip] { \begin{admonitionbox}[quotecolor]{\itshape\faQuoteLeft \  #1} } { \end{admonitionbox} }
+
+
+
+%###############################################################################
+%                                                                              #
+% Listings              {{{2                                                   #
+%                                                                              #
+%###############################################################################
+
+
+%
+% Settings for code without listings package environments
+%
+
+% unb list style {{{3
+% Creating color boxes for listings 
+%
+\lstdefinestyle{lstunb}{
+  numbers          = left,
+  xleftmargin      = 0.6em,
+  framexleftmargin = 0.4em,
+  frame=none,
+  basicstyle=\scriptsize\ttfamily, % print whole listing small
+  showstringspaces=false
+  aboveskip        = 0.1em,
+  belowskip        = 0.1em,
+  abovecaptionskip  = 0em,
+  belowcaptionskip  = 0em,
+  escapeinside      = {/*@}{@*/}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% shell list style {{{3
+% This is a style that emulates a shell session 
+%
+% The important thing is to typeset the commands
+% inside the characters (- ... -). This will
+% appear as a 'stringstyle', whereas the rest will appear
+% as the 'basicstyle' 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstdefinestyle{shell}{
+  style=lstunb,
+  keywordstyle=\color{orange}\bfseries,
+  commentstyle=\color{yellow!80}, % white comments
+  stringstyle=\color{red!50}\sffamily, % typewriter type for strings
+  comment=[l]{$},
+  morecomment=[l]\%,
+  morecomment=[l][keywordstyle]{//},
+  morecomment=[f][commentstyle][0]{=},
+  morecomment=[l][commentstyle]{`},
+  numberstyle=\color{cyan!60}\tiny,
+  escapeinside={(-}{-)}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Ubuntu terminal {{{2
+% This environment emulates a 
+% \begin{ubuntu} ... \end{ubuntu}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\DeclareTCBListing{ubuntu}{ o !O{} }{
+  verbatim,colback=violet!50!black,hbox,
+  colupper=white,colframe=gray!65!black,
+  listing only, listing engine=listings,
+  listing options={style=shell,numbers=left},
+  fonttitle={\ttfamily \scriptsize},
+  title={\textcolor{red}$\bullet$\textcolor{orange!70}$\bullet$\textcolor{green}$\bullet$ #1},
+  #2
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% bash terminal {{{2 
+% This environment emulates a 
+% \begin{bash} ... \end{bash}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\DeclareTCBListing{bashterm}{ o !O{} }{
+  verbatim, breakable,hbox,
+  bottom=0pt,left=0pt,top=0pt,      
+  colback=black,colupper=white,colframe=yellow!65!black,
+  % bottomrule=2pt,rightrule=2pt,     
+  % drop fuzzy shadow, sharp corners=downhill,
+  listing only,
+  listing options={language=bash,style=shell},
+  fonttitle={\ttfamily \scriptsize},
+  title={#1},
+  #2
+}
+
+
+%
+% Inline text {{{2
+%
+\DeclareTotalTCBox{\inlineText}{ O{red} m !O{} }
+{
+enhanced,fontupper=\ttfamily,nobeforeafter,tcbox raise base,arc=0pt,outer arc=0pt,
+top=0pt,bottom=0pt,left=0mm,right=0mm,
+leftrule=0pt,rightrule=0pt,toprule=0.1mm,bottomrule=0.3mm,boxsep=0.5mm,
+colback=#1!10,
+colframe=#1!30,
+fonttitle=\Tiny,coltitle=gray,lefttitle=-0.5em,bottomtitle=-0.1mm,titlerule=0.1mm,boxsep=0mm,
+#3
+}{#2}
+
+\NewDocumentCommand \file     { m } { \inlineText[cyan]          { #1} }
+\NewDocumentCommand \fileI    { m } { \inlineText[cyan]          { #1}[title=\faFile] }
+\NewDocumentCommand \key      { m } { \inlineText[darkgray]      { #1} }
+\NewDocumentCommand \keyI     { m } { \inlineText[darkgray]      { #1}[title=\faKey] }
+\NewDocumentCommand \dir      { m } { \inlineText[green]         { #1} }
+\NewDocumentCommand \dirI     { m } { \inlineText[green]         { #1}[title=\faFolderOpen] }
+\DeclareDocumentCommand \cli  { m } { \inlineText[blue]          { #1} }
+\DeclareDocumentCommand \cliI { m } { \inlineText[blue]          { #1}[title=\faTerminal,frame hidden] }
+\NewDocumentCommand \youtube  { m } { \inlineText[red]           { #1} }
+\NewDocumentCommand \youtubeI { m } { \inlineText[red]           { #1}[title=\faYoutube] }
+\NewDocumentCommand \wiki     { m } { \inlineText[orange]        { #1} }
+\NewDocumentCommand \wikiI    { m } { \inlineText[orange]        { #1}[title=\faWikipediaW,frame hidden] }
+\NewDocumentCommand \pubmed   { m } { \inlineText[blue!50!white] { #1} }
+\NewDocumentCommand \pubmedI  { m } { \inlineText[blue!50!white] { #1}[title=\aiPubMed,frame hidden] }
+\NewDocumentCommand \doi      { m } { \inlineText[blue!50!white] { #1} }
+\NewDocumentCommand \doiI     { m } { \inlineText[blue!50!white] { #1}[title=\aiDoi,frame hidden] }
+
+
+%
+% Inline bash command {{{3
+% from tcolorbox page 459
+% with a * typesets a prompt and highlights the first command. Without it prints a plain black box
+%\commandbox*{cd "My Documents"} changes to directory \commandbox{My Documents}.
+%
+\DeclareTotalTCBox{\bashx}{ s m } {
+  verbatim,colupper=white,colback=black!75!white,colframe=black,
+  top=0pt,bottom=0pt,left=0mm,right=0mm,
+} {
+  \IfBooleanF{#1}{\textcolor{orange!50}{\ttfamily\bfseries \$ }}%
+  \lstinline[language=bash,style=shell]^#2^
+  }
+
+\DeclareTotalTCBox{\bash}{ s m } {
+  verbatim,colupper=white,colback=purple!75!white,colframe=black,
+  top=0pt,bottom=0pt,left=0mm,right=0mm,
+} {
+  \IfBooleanF{#1}{\textcolor{orange!50}{\ttfamily\bfseries \$ }}%
+  \lstinline[language=bash,style=shell]^\% -> #2^
+  }
+
+\NewDocumentCommand \Shell     { m } { \inlineText[gray!50!white] { #1}[title=\faTerminal,frame hidden] }
+
+\NewTotalTCBox{\SHELL}{ m } {
+  verbatim,colupper=white,colback=black!75!white,colframe=black,
+  top=0pt,bottom=0pt,left=0mm,right=0mm,
+} {
+  % Prompt
+  % \textcolor{orange!50}{\ttfamily\bfseries \% }%
+  % Command
+  \lstinline[language=bash,style=shell]^#1^
+  }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%% mdframed boxes {{{1
+% General mdframed options shared by all styles
+% \mdfsetup{
+%   font=\scriptsize,  skipbelow=1em, skipabove=1em, shadow=true,
+%   innerleftmargin=4pt,
+%   shadowcolor=gray!50,shadowsize=5pt,roundcorner=5pt
+% }
+%
+% % mdframed terminal style
+% \mdfdefinestyle{terminal}
+% {%
+%   linecolor=framecolor,
+%   backgroundcolor=shadecolor
+% }
+%
+% % mdframed style for verbatim environments
+% \mdfdefinestyle{verbatim}
+% {%
+%   linecolor=cyan!40,
+%   backgroundcolor=cyan!10
+% }
+%
+%
+%==============================================================================%
+%                                                                              %
+% General formatting environments for code  {{{1                               %
+%                                                                              %
+%==============================================================================%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Patching inline listing %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%@@ \usebeamercolor{description item}
+% \colorlet{CodeColor}{description item.bg}
+% \makeatletter
+%   \xpretocmd\lstinline{\Fcolorbox{CodeColor!90!black}{CodeColor}\bgroup\appto\lst@DeInit{\egroup}}{}{}
+% \makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+

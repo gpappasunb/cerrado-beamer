@@ -1,0 +1,50 @@
+
+% ◣………………………………………………………………………………………………………………………………◢ Partial: fonts.latex {{{1
+
+\defaultfontfeatures{Scale=MatchLowercase}
+\defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+$if(mainfont)$
+  \setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$]{$mainfont$}
+$endif$
+$if(sansfont)$
+  \setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$]{$sansfont$}
+$endif$
+$if(monofont)$
+  \setmonofont[$for(monofontoptions)$$monofontoptions$$sep$,$endfor$]{$monofont$}
+$endif$
+$for(fontfamilies)$
+  \newfontfamily{\$fontfamilies.name$}{$fontfamilies.font$}[$for(fontfamilies.options)$$fontfamilies.options$$sep$,$endfor$]
+$endfor$
+$if(cursivefont)$
+  \newfontfamily{\cursivefont}{$cursivefont$}[NFSSFamily=cursivefont]
+$else$
+  \newfontfamily{\cursivefont}{Papyrus}[NFSSFamily=cursivefont]
+$endif$
+$if(fancyfont)$
+  \newfontfamily{\fancyfont}{$fancyfont$}[NFSSFamily=fancyfont]
+$else$
+  \newfontfamily{\fancyfont}{Papyrus}[NFSSFamily=fancyfont]
+$endif$
+$if(handfont)$
+  \newfontfamily{\handfont}{$handfont$}[NFSSFamily=handfont]
+$else$
+  % \newfontfamily{\handfont}{Apple Chancery}[NFSSFamily=handfont]
+  \newfontfamily{\handfont}{Papyrus}[NFSSFamily=handfont]
+$endif$
+$if(mathfont)$
+$if(mathspec)$
+  \ifXeTeX
+    \setmathfont(Digits,Latin,Greek)[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+  \else
+    \setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+  \fi
+$else$
+  \setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
+$endif$
+$endif$
+$if(luatexjapresetoptions)$
+  \ifLuaTeX
+    \usepackage[$for(luatexjapresetoptions)$$luatexjapresetoptions$$sep$,$endfor$]{luatexja-preset}
+  \fi
+$endif$
+%\fi

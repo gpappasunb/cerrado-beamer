@@ -1,0 +1,318 @@
+title: Cerrado quarto format extension
+author: Georgios Pappas jr
+version: 1.0.0
+quarto-required: ">=1.7.0"
+contributes:
+  metadata:
+    project:
+      cursivefont: "Crafty Girls"
+      handfont: "Tangerine"
+      fontfamilies:
+        - name: cursive
+          #font: "Atma"
+          font: "Annie Use Your Telescope"
+          # font: "Unkempt"
+          options: "Color=violet"
+        - name: fancy
+          font: "Crafty Girls"
+        - name: fancymono
+          font: "NovaMono"
+        - name: hand
+          font: "Tangerine"
+        - name: neon
+          font: "Monofett"
+
+  format:
+    beamer:
+      pdf-engine: xelatex
+      pdf-engine-opts:
+        - "-shell-escape"
+      # keep-tex: true
+      fontsize: "9pt"
+      mainfont: "Georgia"
+      monofont: "Latin Modern Mono"
+      sansfont: "Comic Neue"
+      theme: "BSB"
+      titlegraphic: "logo.png"
+      titlegraphicoptions: ["width=\\textwidth"]
+      slide-level: 2
+      aspectratio: 169
+      classoption: t # Aligns slide contents to TOP
+      highlight-style: tango
+      colorlinks: true
+      linkcolor: Cyan4
+      urlcolor: Cyan4
+      # Templates
+      template: cerrado.template
+      template-partials:
+        - partials/doc-class.tex
+        - partials/fonts.latex
+        - partials/font-settings.latex
+        - partials/common.latex
+        - partials/tables.tex
+        - partials/graphics.tex
+        - partials/passoptions.latex
+        - partials/after-header-includes.latex
+        - partials/before-title.tex
+        - partials/before-body.tex
+      format-resources:
+        - assets/fonts/*
+        - assets/img/logo.png
+        - beamer/*
+    common:
+      environments:
+        [
+          admonition,
+          admonitionnote,
+          admonitiontip,
+          admonitionwarn,
+          admonitionerror,
+          admonitionquote,
+          admonitionterm,
+          ubuntu,
+          atip,
+          banner,
+          message,
+        ]
+      commands:
+        [
+          file,
+          fileI,
+          key,
+          keyI,
+          dir,
+          dirI,
+          cli,
+          cliI,
+          youtube,
+          youtubeI,
+          wiki,
+          wikiI,
+          pubmed,
+          pubmedI,
+          doi,
+          doiI,
+          menu,
+          keys,
+          path,
+          prompt,
+          bash,
+          shell,
+          focus,
+          focusout,
+          focustag,
+          Focustag,
+          sticker,
+          stickerI,
+          stickerterm,
+          stickertermI,
+          stickererror,
+          stickererrorI,
+          stickerwarn,
+          stickerwarnI,
+          inlinesticker,
+          inlinestickerI,
+          inlinestickerterm,
+          inlinestickertermI,
+          inlinestickererror,
+          inlinestickererrorI,
+          inlinestickerwarn,
+          inlinestickerwarnI,
+          fittext,
+          listitem,
+          larger,
+          smaller,
+          half,
+          double,
+          red,
+          colortext,
+          tt,
+          tttiny,
+          mono,
+          monored,
+          monoblue,
+          monohl,
+          monotiny,
+          rm,
+          sf,
+          bold,
+          it,
+          ve,
+          vetiny,
+          alerted,
+          example,
+          warn,
+          tip,
+          hint,
+          ruletitled,
+          rule,
+          hr,
+          boxverb,
+          boxalert,
+          boxexample,
+          boxcode,
+          boxfancy,
+          hl,
+          hltext,
+          hlcode,
+          hlexample,
+          hlred,
+          hlalert,
+          hlwarn,
+          hlnote,
+          hltip,
+          icon,
+          keyword,
+          flextext,
+        ]
+      flexspan:
+        # ░░░░░░░░░░░░░░░░░░░░░░░░░░░┤ Highlighted text ├░░░░░░░░░░░░░░░░░░░░░░░░░
+        #
+        # ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┤ colortext ├┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+        - pre: "-=" # Text with only the color as option!
+          pos: "=-" # -=Text=-(red) for example. Without options text is plain
+          cmd: "colortext"
+        - pre: "-=" # Text with only the color as option!
+          pos: "=-r" # -=Text=-(red) for example. Without options text is plain
+          opt: "red"
+          cmd: "colortext"
+        - pre: "-=" # Text with only the color as option!
+          pos: "=-g" # -=Text=-(red) for example. Without options text is plain
+          opt: "DarkGreen"
+          cmd: "colortext"
+        - pre: "-=" # Text with only the color as option!
+          pos: "=-b" # -=Text=-(red) for example. Without options text is plain
+          opt: "DeepSkyBlue"
+          cmd: "colortext"
+        # ┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┤ flextext ├┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+        - pre: "+=" # Text with options fg, bg, scale, font
+          pos: "=+" # Text with options
+          cmd: "flextext"
+        # code keyword
+        - left: "++"
+          cmd: "hlcode"
+        ## Highlighted red text. Attention
+        - left: "!!"
+          cmd: "hlred"
+        # Highlighted text
+        - pre: "@@"
+          pos: "@@"
+          cmd: "hl"
+        - left: "-n-"
+          right: "--"
+          cmd: "hlnote"
+        - left: "-h-" # A tip
+          right: "--"
+          cmd: "hlhand"
+        - left: "-t-"
+          right: "--"
+          cmd: "hlexample"
+        - left: "-a-"
+          right: "--"
+          cmd: "hlalert"
+        - left: "-w-"
+          right: "--"
+          cmd: "hlwarn"
+        - pre: "+:"
+          pos: ":+"
+          cmd: "monoblue"
+        - left: "+!"
+          right: "!+"
+          cmd: "boxcode"
+        - left: "+#"
+          right: "#+"
+          cmd: "focusout"
+        # ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░┤ rules ├░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        - pre: "==="
+          pos: "==!"
+          cmd: "hr"
+          opt: "color=red!30,fg=red"
+        - pre: "==="
+          pos: "==="
+          cmd: "hr" # Full section rule
+        - pre: "xx" # xxxx create a rule
+          cmd: "hr" # Full section rule
+          exact: true
+          val: ""
+        - pre: "---"
+          pos: "---"
+          cmd: "rule" # Titled line
+        - pre: "!v"
+          pos: "v!"
+          cmd: "vspace"
+        # ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░┤ Icons ├░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        # - pre: "::"
+        #   pos: "-a"
+        #   cmd: "iconarrow"
+        # ┤ Arrows ├░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        - pre: "-"
+          pos: "\\>"
+          cmd: "iconarrow"
+          exact: true
+        - pre: "="
+          pos: "\\>"
+          cmd: "iconarrow"
+          exact: true
+          opt: "fg=red,scale=2"
+        - pre: "\\<"
+          pos: "-"
+          cmd: "iconarrowleft"
+          exact: true
+        # ┤ Symbols ├░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        - pre: "::"
+          pos: ":*"
+          cmd: "iconbullet"
+        - pre: "::" # Thumbs up
+          pos: ":u"
+          cmd: "iconthumb"
+        - pre: "::"
+          pos: ":?"
+          cmd: "iconquestion"
+        - pre: "::"
+          pos: ":v"
+          cmd: "iconcheck"
+        - pre: "::"
+          pos: ":#"
+          cmd: "iconcamera"
+        - pre: "::"
+          pos: ":!"
+          cmd: "iconwarn"
+        - pre: ":!"
+          pos: "!:"
+          cmd: "iconwarn"
+          opt: "bg=RedOrange,fg=white"
+        - pre: "::"
+          pos: ":o"
+          cmd: "iconeye"
+          opt: "fg=DodgerBlue" # It is possible to customize the color
+        - pre: "::"
+          pos: ":h"
+          cmd: "iconhandright"
+        - pre: "::"
+          pos: ":p"
+          cmd: "iconpen"
+          # opt: "fg=DodgerBlue" # It is possible to customize the color
+          # ┤ Computer ├░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        - pre: "::"
+          pos: "]]"
+          cmd: "iconterm"
+        - pre: "[["
+          pos: "]]"
+          cmd: "iconterm"
+        - pre: "::"
+          pos: "//"
+          cmd: "iconfile"
+          # arg: "Important" # Imposes the cmd contents -> \hl{Important}
+        - pre: "::"
+          pos: "::"
+          cmd: "icon"
+      filters:
+        # ░░░░░░░░░░░░░░░░░░░░░░┤ The order is very Important ├░░░░░░░░░░░░░░░░░░░░░░
+        - filters/adoc-admonitions.lua
+        - filters/markdown-render.lua
+        - filters/latex-environment.lua
+        - filters/flexspan.lua
+        - filters/split.lua
+        - filters/sideimage.lua
+        - filters/list-table.lua
+        - twocol

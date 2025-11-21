@@ -1,0 +1,16 @@
+---
+title: "cerrado beamer theme"
+subtitle: "Slides"
+author: "Name Surname"
+institute: "Your institution"
+date: today
+format: cerrado-beamer
+---
+
+# Section Header
+
+## Slide title
+
+* contents
+
+

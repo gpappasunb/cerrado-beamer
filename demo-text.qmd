@@ -1,0 +1,658 @@
+---
+title: "Demonstration of text decorations"
+subtitle: "compgen-slides-beamer extension"
+author: Georgios Pappas Jr
+institute: | 
+  University of Brasilia 
+  Computational genomics group
+date: 2025-10-17
+format: compgen-slides-beamer
+meta: 
+  ext: compgen-slides
+---
+
+
+
+# Decorating text
+
+
+## Basic markdown markup
+
+These are some basic markdown markups to format text 
+
+::: {.markdownrender title="Markdown Render example" left="Code" right="Rendered"}
+
+- _Italics_ 
+- **Bold** 
+- superscript^2^ / subscript~2~
+- *italics*, **bold**, ***bold italics***
+
+::: 
+
+
+## Customizing text elements 
+
+[spans]: https://quarto.org/docs/authoring/markdown-basics.html#spans "Spans"
+
+Use markdown [spans] to format text. The span syntax is: 
+
+    [formatted text inside span]{.name opts=""} 
+
+NOTE: Do not forget to include the dot `.` in the span name
+
+1. [] - the text to be formatted
+2. {.name - the name of the class (LaTeX command) to be applied
+3. opts="" - optional arguments to the command, creating multiple options if several are provided in a comma-separated list
+4. pass="" - pass the optional arguments _as is_ in a single option to LaTeX command 
+
+## Text styles 
+
+::: {.markdownrender title="Text styles using spans"}
+
+* [bold]{.bold }
+* [italic]{.it }
+* [roman font]{.rm }
+* [sans font]{.sf }
+* [typewriter]{.tt} or [typewriter]{.mono}
+* [verbatim in mono]{.ve}
+
+:::
+
+## Text colors 
+
+* The class ++.colortext++ offers the possibility to change its color 
+* ++.red++ renders the span contents in red
+
+::: {.markdownrender title="Other color spans (simpler)"}
+
+* [Red text with .colortext]{.colortext}
+* [Red text with .red]{.red}
+* [Green text with .colortext]{.colortext opts="Green"}
+
+These classes change with the theme:
+
+* [alerted text]{.alerted}
+* [example text]{.example}
+* [warn text]{.warn}
+* [hint text]{.hint}
+
+:::
+
+## Special markup for colortext
+
+* This extension integrates, [flexspan](https://github.com/gpappasunb/flexspan), that introduces new markup elements to facilitate writing some text decorations
+
+* To enter any colored text, enclose it in the placeholders `-=` and `=-`. After the last placeholder, add the desired color, inside parenthesis ( ::without any spaces after the placeholder:! ). For example:
+
+            -= Text is colored -=(Cyan)
+<!-- -->
+
+There are some predefined color markups:
+
+* `-=Red=-r` -> -=Red=-r
+* `-=Green=-g` -> -=Green=-g
+* `-=Blue=-b` -> -=Blue=-b
+
+
+## Text size 
+
+:::markdownrender
+
+* Normal and [half size]{.half }
+* Normal and [double size]{.double }
+* Normal text [larger]{.larger}
+* Normal text [smaller]{.smaller}
+* Normal text [4x larger]{.larger opts="4"}
+* Normal text [4x smaller]{.smaller opts="4"}
+
+:::
+
+## Catch all text formatting 
+
+* The class ++flextext++ offers a customizable way to modify the text to be displayed
+
+        [Text]{.flextext pass="fg=red,font=Arial,scale=2"} 
+[Text]{.flextext pass="fg=red,font=Arial,scale=2"} 
+
+A special markup can be used instead:
+
+    += Text =+
+
+For example:
+
+`+=Text=+(fg=red,font=Arial,scale=2)` ->
++=Text=+(fg=red,font=Arial,scale=2)
+
+    Testing **[colortext]{.colortext pass="red"}** and +=Text=+(fg=DodgerBlue,fontupper=\\bfseries,font=Arial,scale=3)
+Testing **[colortext]{.colortext pass="red"}** and +=Text=+(fg=DodgerBlue,fontupper=\\bfseries,font=Arial,scale=3)
+
+
+## Special text formatting
+
+
+<!-- : Special text formatting -->
+
+| Format                    | Result                  |
+| :-------------------      | :-----                  |
+| [Highlight]\{.hl\}        | [Highlight]{.hl}        |
+| [Menu,File,Save]\{.menu\} | [Menu,File,Save]{.menu} |
+| [/usr/local]\{.path\}     | [/usr/local]{.path}     |
+| [\ctrl + \\tab]\{.keys\}   | [\ctrl + \tab]{.keys}   |
+: {tbl-colwidths="[45,45]"}
+
+
+## Markup for keywords {.shrink}
+
+:::twocol
+* Several classes can be used to decorate text elements, using the markdown [Span notation](https://quarto.org/docs/authoring/markdown-basics.html#sec-divs-and-spans), like:
+
+      [text to be decorated]{.classname} 
+
+* * * 
+NOTE: the _dot_ before the class name is important!
+:::
+
+---
+
+* Additional options can be provided in this extension using the `pass=` parameter
+
+        [text to be decorated]{.classname pass="comma separated list of 'key=values'"}
+
+
+NOTE: Place the `pass` options inside quotes
+
+
+=== Examples ===
+
+
+    [Highlighted text]{.hltext pass="fg=orange,bg=black"]
+
+The result is: [Highlighted text]{.hltext pass="fg=orange,bg=black"}
+
+## The hltext class
+
+* The [.hltext]{.hlcode} class contains several customizations that enable user control over the text foreground/background colors, size and font. These customizations are provided using the "pass" parameter
+
+### Markdown
+
+:::markdown
+
+    [Highlighted text - plain]{.hltext}
+
+    [Highlighted text - decorated]{.hltext pass="scale=2,font=Arial,bg=orange,fg=black"}
+
+::: 
+
+### Rendered 
+
+* [Highlighted text - plain]{.hltext}
+
+* [Highlighted text - decorated]{.hltext pass="scale=2,font=Arial,bg=orange,fg=black"}
+
+## Available options for .hltext
+
+* These options are provided inside the "pass=" parameter as a comma-separated list
+
+| **key**         | **description**       |
+| --------------- | ---------------       |
+| fg              | Text color            |
+| bg              | Background color      |
+| scale           | Text size ratio       |
+| font            | Font family           |
+: Options for .hltext class {#tbl-hltext}
+
+
+## Predefined .hltext classes {.shrink}
+
+* Example usage
+
+      [text inside]{.class} ->  [hlcode]{.hlcode} 
+
+| **Class**       | **Rendered**            |
+| --------------- | ---------------         |
+| hlcode          | [hlcode]{.hlcode}       |
+| hlnote          | [hlnote]{.hlnote}       |
+| hlhand          | [hlhand]{.hlhand}       |
+| hlred           | [hlred]{.hlred}         |
+| hlwarn          | [hlwarn]{.hlwarn}       |
+| hlexample       | [hlexample]{.hlexample} |
+| hlalert         | [hlalert]{.hlalert}     |
+| hltip           | [hltip]{.hltip}         |
+| hl              | [hl]{.hl}               |
+: {tbl-colwidths="[25,25]"}
+
+
+## Other classes: .keyword {.shrink}
+
+* The `.keyword` class provides a more customizable highlighting, using the same options as `.hltext` class (See .hltext table) and more
+
+=== Examples ===
+
+:::twocol
+    [Keyword]{.keyword}
+[Keyword]{.keyword}
+
+    [Keyword]{.keyword pass="font=Papyrus"} 
+[Keyword]{.keyword pass="font=Papyrus"}
+
+* * *
+
+    [Keyword]{.keyword pass="fg=red"} 
+[Keyword]{.keyword pass="fg=red"}
+
+    [Keyword]{.keyword pass="font=Arial,bg=blue"} 
+[Keyword]{.keyword pass="font=Arial,bg=blue"} 
+
+:::
+
+    [Keyword]{.keyword pass="scale=2,colframe=yellow,boxrule=2pt"} 
+[Keyword]{.keyword pass="scale=2,colframe=yellow,boxrule=2pt"}
+
+
+## Options for .keyword {.shrink}
+
+:::{.twocol}
+
+```markdown
+[Keyword]{.keyword} [Keyword]{.keyword pass="fg=red"}
+[Keyword]{.keyword pass="fg=orange,bg=gray"}
+[Keyword]{.hltext pass="scale=2"} 
+[Keyword]{.hltext pass="scale=0.8"}
+[Keyword]{.hltext pass="font=Papyrus"}
+```
+
+- - -
+
+[Keyword]{.keyword} [Keyword]{.keyword pass="fg=red"}
+[Keyword]{.keyword pass="fg=orange,bg=gray,frame hidden"}
+
+[Keyword]{.hltext pass="scale=2"} 
+[Keyword]{.hltext pass="scale=0.8"}
+[Keyword]{.hltext pass="font=Papyrus"}
+:::
+
+
+[tcolorbox]: <https://github.com/T-F-S/tcolorbox> "tcolorbox"
+
+
+| **key**         | **description**                                                |
+| --------------- | ---------------                                                |
+| fg              | Text color                                                     |
+| bg              | Background color                                               |
+| scale           | Text size ratio                                                |
+| font            | Font family                                                    |
+| ...             | Any option of the [Tcolorbox][tcolorbox] LaTeX package. Like _frame hidden_ | 
+: {tbl-colwidths="[25,75]"}
+
+TIP: What is the difference between _hltext_ and _keyword_? _hltext_ respects line overflows, which is not always expected for _keyword_. However, _keyword_ is implemented with [tcolorbox] and is more customizable, including controlling the frames  
+
+## Easier notation for text decorations {.shrink}
+
+* This extension includes another quarto extension named [flexspan](https://github.com/gpappasunb/flexspan), that introduces new markup elements to facilitate writing some text decorations
+
+* The file `_extension.yml` contains the configuration for `flexspan`, creating special markups for the keyword span described earlier 
+
+=== New markups ===
+
+--- ++ for keywords ---(Olive)
+
+<!-- [++ for keywords]{.rule opts="Purple"} -->
+
+    CodeBlock The markup for ++Keyword++ is the same as the span notation for [Keyword]{.hlcode}
+Para: The markup for ++Keyword++ is the same as the span notation for
+
+[Keyword]{.hlcode}
+
+[+! for keywords]{.rule opts="Maroon"}
+
+    The markup for !!Keyword!! is the same as the span notation for [Keyword]{.hlred}
+The markup for !!Keyword!! is the same as the span notation for [Keyword]{.hlred}
+
+## Predefined markups syntax {.shrink}
+
+* The markup definitions are in the file `_extension.yml`
+* The meaning and usage of the definition below is:
+
+        - left: "++"
+          cmd: "hlcode"
+
+<!-- -->
+
+        ++TEXT++ means: For any text enclosed in a pair or '++', transform to [text]{.hlcode} 
+
+++TEXT++
+
+* For this definition:
+
+        - left: "-h-"
+          right: "--"
+          cmd: "hlhand"
+
+<!-- -->
+
+        The placeholders are '-h-' TEXT '--'. The notation is  -h- TEXT --
+
+<!-- -->
+-h- TEXT --
+
+
+## More predefined markups
+
+:::twocol
+
+    @@ hl @@ - Use to highlight text
+@@ hl @@ 
+
+    !! hlred !! - Use to mark important text
+!! hlred !! 
+
+    -n- hlnote --
+-n- hlnote --
+
+    -t- hlexample --
+-t- hlexample --
+
+* * * 
+
+    -h- hlhand --
+-h- hlhand --
+
+    -a- hlalert --
+-a- hlalert --
+
+    -w- hlwarn --
+-w- hlwarn --
+
+    +: monoblue :+
++: monoblue :+
+
+    +! boxcode !+
++! boxcode !+
+:::
+
+TIP: The span class is found inside the markup symbols. For instance, @@text@@ is the same as `[text]{.hl}`
+
+<!-- 
+
+
+        - left: "!!"
+          cmd: "hlred"
+        - left: "-n-"
+          right: "--"
+          cmd: "hlnote"
+        - left: "-h-"
+          right: "--"
+          cmd: "hlhand"
+        - left: "---" # A tip
+          right: "--"
+          cmd: "hlhand"
+        - left: "-t-"
+          right: "--"
+          cmd: "hlexample"
+        - left: "-a-"
+          right: "--"
+          cmd: "hlalert"
+        - left: "-w-"
+          right: "--"
+          cmd: "hlwarn"
+        - pre: ";:"
+          pos: ":;"
+          cmd: "monoblue"
+        - left: "+!"
+          right: "!+"
+          cmd: "boxcode"
+-->
+
+## Predefined text classes with icons  {.shrink}
+
+| **span**                | **rendered**          |
+| :--                     | ---                   |
+| `[fileI]{.fileI}`       | [fileI]{.fileI}       |
+| `[dirI]{.dirI}`         | [dirI]{.dirI}         |
+| `[cliI]{.cliI}`         | [cliI]{.cliI}         |
+| `[keyI]{.keyI}`         | [keyI]{.keyI}         |
+| `[wikiI]{.wikiI}`       | [wikiI]{.wikiI}       |
+| `[youtubeI]{.youtubeI}` | [youtubeI]{.youtubeI} |
+| `[pubmedI]{.pubmedI}`   | [pubmedI]{.pubmedI}   |
+| `[doiI]{.doiI}`         | [doiI]{.doiI}         |
+: {tbl-colwidths="[55,35]"}
+
+## Focusing on text pieces
+
+* Two special classes are used to decorate and tag a text, ++.focus++ and ++.focusout++
+
+### Markdown {.alert}
+
+        This is a [taggeg text]{.focus}. Other cases will be [numbered]{.focus} inside the slide
+
+### Rendered {.example}
+
+This is a [tagged text]{.focus}. Other cases will be [numbered]{.focus} inside the slide
+
+TIP: '.focusout' changes the number location, without affecting the sequential numeration 
+
+This is a [tagged text]{.focusout}. Other cases will be [numbered]{.focusout} inside the slide
+
+
+## Tagging focused text{.shrink}
+
+* ++.focustag++ customizes the text and color of the tag 
+* Use the argument !!pass=!! to indicate the tag text and its color, in this order 
+    * ex: ++pass='Important,red'++
+
+=== Examples ===
+
+    focustag: [Testing focustag span passing the tag and color]{.focustag pass="Tip,green"}
+focustag: [Testing focustag span passing the tag and color]{.focustag pass="Tip,green"}
+
+    {.focustag pass="Good"} -> the color is optional
+focustag: [Testing focustag span the tag only ]{.focustag pass="Good"}
+
+    [Focustag span with opts="Special,orange"]{.focustag pass="Special,orange"}
+[Focustag span with opts="Special,orange"]{.focustag pass="Special,orange"}
+
+## Focused text shortcuts{.shrink}
+
+* Enclose the text to be tagged in 
+
+         left: "+#"
+         right: "#+"
+
+=== Examples ===
+
+    Shortcut +#Text to be tagged#+ 
+Shortcut +#Text to be tagged#+ 
+
+    Shortcut +#Text to be tagged in red#+(red)
+Shortcut +#Text to be tagged in red#+(red)
+
+    +##+ Only the sequential numbering
++##+ Only the sequential numbering
+
++##+ Only the sequential numbering
+
+# Using icons
+
+## Icons
+
+* Icons from the FontAwesome collection can be inserted using the span ++icon++ 
+    * The span text should contain exactly the name of the icon in [FontAwesome5 package](https://br.mirrors.cicku.me/ctan/fonts/fontawesome5/doc/fontawesome5.pdf)
+
+=== Examples ===
+
+    [arrow-right]{.icon} [camera]{.icon} [linux]{.icon} [thumbs-up]{.icon} 
+[arrow-right]{.icon} [camera]{.icon} [linux]{.icon} [thumbs-up]{.icon} 
+
+---Text options can be provided with _pass=_---
+
+:::twocol
+
+    [arrow-right]{.icon pass="fg=red,scale=6"} 
+[arrow-right]{.icon pass="fg=red,scale=6"} 
+
+* * *
+
+    [linux]{.icon pass="bg=Pink,scale=10"} 
+[linux]{.icon pass="bg=Pink,scale=10"} 
+
+
+:::
+
+## Icons: special markup
+
+* The builtin extension [flexspan](https://github.com/gpappasunb/flexspan), adds a simple markup to include icons
+
+:: :* Simply surround the FontAwesome5 icon name with ++::++
+
+
+=== Examples ===
+
+    DNA ::arrow-right:: ::dna::
+DNA ::arrow-right:: ::dna::
+
+---Text options can be provided within ()---
+
+:::twocol
+
+    ::handshake::(fg=LimeGreen,scale=2) 
+::handshake::(fg=LimeGreen,scale=2) 
+
+* * *
+
+    ::github::(bg=DodgerBlue,fg=white,scale=4)
+::github::(bg=DodgerBlue,fg=white,scale=4)
+
+:::
+
+
+## Icons: predefined markups {.shrink}
+
+::::twocol
+
+    -> right arrow / <- left / => red arrow  
+-> right arrow / <- left / => red arrow  
+<!-- -->
+
+    :::* / :: :* / ::Tip: :* Text inside the markup
+:::* / :: :* / ::Tip: :* -> Text inside the markup
+
+    :::# camera / :::o / ::lookout:o
+:::# camera / :::o / :: lookout :o
+
+    :::? / ::Questions:?
+:: :? / ::Questions:?
+
+    :!!: / :!WARNING!:
+:!!: / :!WARNING!:
+
+<!-- -->
+
+    :::! warn / ::Warning :! 
+:: :! warn / ::Warning :! 
+
+
+* * * 
+
+    :::v / ::Check:v
+:: :v / ::Check:v
+
+    :::h / :: Indicator :h
+:: :h / :: Indicator :h
+
+    :::p / ::Take note: :p
+:: :p / ::Take note: :p
+
+    :::u thumbs-Up / ::Good:u
+:: :u thumbs-Up / ::Good:u
+
+    ::// file /  ::/home/user/.zshrc//
+::// file /  ::/home/user/.zshrc//
+
+
+    [[]] / [[cp -f from to]] 
+[[]] / [[cp -f from to]] 
+
+::::
+
+
+
+# Organizing slides with horizontal rules
+
+## Separating slide with horizontal rules
+
+* Horizontal rules can be drawn to separate topics in the slide
+* Use a span with the class `.hr` (horizontal rule)
+  * The span contents can contain a text. It is presented centered in the line
+
+### Use of hr span
+
+```markdown
+[text]{.hr}
+
+[text]{.hr pass="color=orange,width=6pt,fg=blue,pos=left"}
+```
+
+### Rendered
+
+[text]{.hr}
+
+[text]{.hr pass="color=orange,width=6pt,fg=blue,pos=left"}
+
+
+
+## Options to 'hr' rules 
+
+* Several options can be passed to `hr` class 
+
+color
+: rule color
+
+width
+: rule width
+
+fg
+: text color 
+
+pos
+: left, right or center (default). Text placement
+
+:: Text is _optional_ inside the span element :u
+
+
+<!-- -->
+
+[Examples]{.hr pass="color=MediumPurple,width=16pt,fg=Purple,pos=right"}
+
+    [Examples]{.hr pass="color=MediumPurple,width=16pt,fg=Purple,pos=right"}
+
+## Rules: shortcut markup
+
+    === rule with text ===
+=== rule with text ===
+
+    =======: rule without text (6 consecutive = )
+
+======
+
+    === Text ===(fg=blue,color=green): customize the rule with the options above
+=== Text ===(fg=blue,color=green)
+
+     === Attention! ==! 
+=== Attention! ==! 
+
+## Titled rules 
+
+    [This is a titled rule]{.rule}
+[This is a titled rule]{.rule}
+
+    ---This is a titled rule with markup (3 dashes before/after)---
+---This is a titled rule---
+
+    ---This is a titled rule in red---(red)
+---This is a titled rule in red---(red)
+
+<!-- 
+-->
+
+WARN: For the .rule class, the option following the --- is only the color name (red), and not (fg=red)
+

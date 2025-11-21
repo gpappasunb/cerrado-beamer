@@ -1,0 +1,92 @@
+%###############################################################################
+%                                                                              #
+% Beamer font  theme for BSB template                                          #
+%                                                                              #
+% Author: Georgios Pappas Jr                                                   #
+% Institute: University of Brasilia (UnB) - Brazil                             #
+%            Department of Cell Biology                                        #
+%                                                                              #
+%                                                                              #
+%###############################################################################
+%                                                                              #
+%   Created:            Thu 29 Apr 2021 11:34:38 AM -03                        #
+%   Last Modified:      Thu 29 Apr 2021 11:36:44 AM -03                        #
+%                                                                              #
+%###############################################################################
+
+\ProvidesPackage{beamerfontthemeBSB}[2021/08/13 v1.1 BSB compgen Beamer font theme]
+
+\mode<presentation>
+
+%###############################################################################
+%                                                                              #
+% Slide text font {{{1                                                         #
+%                                                                              #
+%###############################################################################
+\setbeamerfont{normal text}{family=\rmfamily}
+\AtBeginDocument{\usebeamerfont{normal text}}
+
+%###############################################################################
+%                                                                              #
+% Overall slide font {{{1 
+%                                                                              #
+%###############################################################################
+\setbeamerfont{structure}{family=\rmfamily}
+% \setbeamerfont{structure}{family=\rmfamily,series=\mdseries}
+
+%###############################################################################
+%                                                                              #
+% Slide title     {{{1                                                         #
+%                                                                              #
+%###############################################################################
+\setbeamerfont{frametitle}{parent=structure,size=\LARGE,series=\itshape} % Frame titles should be bold
+\setbeamerfont{framesubtitle}{parent=frametitle,size=\Large}
+
+%###############################################################################
+%                                                                              #
+% Elements fonts  {{{1                                                         #
+%                                                                              #
+%###############################################################################
+
+%###############################################################################
+%                                                                              #
+% Title slide {{{1                                                             #
+%                                                                              #
+%###############################################################################
+\setbeamerfont{title}{size=\Huge\bfseries,family=\rmfamily}
+\setbeamerfont{subtitle}{size=\Large\itshape}
+\setbeamerfont{date}{size=\scriptsize,family=\ttfamily,series=\mdseries,parent=structure}
+\setbeamerfont{author}{size=\Large\itshape,series=\handfont}
+\setbeamerfont{institute}{size=\normalsize\itshape}
+
+%###############################################################################
+%                                                                              #
+% Sections    {{{1                                                             #
+%                                                                              #
+%###############################################################################
+\setbeamerfont{caption}{size=\scriptsize}
+\setbeamerfont{section}{size=\LARGE}
+\setbeamerfont{section in toc}{size=\Large,parent=structure}
+\setbeamerfont{section in head/foot}{size=\tiny,parent=structure}
+\setbeamerfont{subsection in toc}{size=\large,parent={section in toc}}
+\setbeamerfont{block title}{series=\mdseries\itshape,parent={structure,block body}}
+
+%###############################################################################
+%                                                                              #
+% Lists       {{{1                                                             #
+%                                                                              #
+%###############################################################################
+\setbeamerfont{item}{parent=structure,series=\mdseries}
+\setbeamerfont{description body}{series=\itshape}
+\setbeamerfont{description item}{series=\bfseries}
+
+
+%###############################################################################
+%                                                                              #
+% Text        {{{1                                                             #
+%                                                                              #
+%###############################################################################
+\setbeamerfont{alerted text}{series=\cursivefont\bfseries}
+
+\mode
+<all>

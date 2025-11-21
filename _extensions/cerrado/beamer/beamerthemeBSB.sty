@@ -1,0 +1,62 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%% beamer theme based on General beamer theme
+%% https://github.com/PM25/General-Beamer-Theme
+%%
+%% Author: Georgios Pappas Jr
+%% University of Brasilia (UnB) - Brazil
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Created:            Wed 28 Apr 2021 03:39:39 PM -03
+%% Last Modified:      Tue 28 Dec 2021 08:49:59 AM -03
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\ProvidesPackage{beamerthemeBSB}[2025/08/13 v1.1 BSB compgen Beamer theme]
+
+%% This part modified from beamerthemeTaiwan.sty by Hsuan-Tien Lin
+\DeclareOptionBeamer{compress}{\beamer@compresstrue}
+\ProcessOptionsBeamer
+
+\RequirePackage{tikz}
+% Fonts 
+\RequirePackage{mathptmx}
+\RequirePackage{lmodern}
+\RequirePackage{soul}
+\RequirePackage{menukeys}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{circledsteps}
+\RequirePackage{moresize}
+\RequirePackage{relsize}
+
+
+\mode<presentation>
+
+\usecolortheme{BSBLightBlue}
+\usefonttheme{BSB}
+\useinnertheme{BSB}
+\useoutertheme{BSB}
+% \useinnertheme{circles}
+% \useoutertheme{SimpleInfo}
+
+\setbeamersize{text margin left=1em,text margin right=1em}
+
+%
+% For menukeys %1
+%
+% Menu separator is ;
+\changemenucolortheme{menus}{menucolors}
+\changemenucolortheme{shadowedroundedkeys}{keyscolors}
+\changemenucolortheme{pathswithfolder}{pathcolors}
+% \copymenustyle{gray}{menucolors}
+\renewmenumacro{\menu}{menus}
+\renewmenumacro{\keys}[-]{shadowedroundedkeys}
+% Show paths with folder icon
+\renewmenumacro{\directory}{pathswithfolder}
+\renewcommand{\path}{\directory}
+
+% \newcommand\neontext{{\Huge\neon\color{red}}}
+
+%###############################################################################
+
+
+\mode
+<all>

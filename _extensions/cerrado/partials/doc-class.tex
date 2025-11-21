@@ -1,0 +1,93 @@
+%%% Loading Beamer class
+\documentclass[
+$if(fontsize)$
+  $fontsize$,
+$endif$
+$if(lang)$
+  $babel-lang$,
+$endif$
+$if(papersize)$
+  $papersize$paper,
+$endif$
+$if(beamer)$
+  ignorenonframetext,
+$if(handout)$
+  handout,
+$endif$
+$if(aspectratio)$
+  aspectratio=$aspectratio$,
+$else$
+  aspectratio=169,
+$endif$
+$endif$
+$for(classoption)$
+  $classoption$$sep$,
+$endfor$
+]{$documentclass$}
+
+
+%%%%%%%%%%%%%%%%%%%%
+%Loading packages 
+%% Required packages
+\RequirePackage{colortbl}
+% \RequirePackage{color}
+\RequirePackage{fancyvrb}
+% \RequirePackage{pgfpages}
+\RequirePackage{amsmath,amssymb}
+\RequirePackage{calc} % for calculating minipage widths
+\RequirePackage[normalem]{ulem}
+\RequirePackage{fontawesome5} 
+\RequirePackage{academicons} 
+\RequirePackage{varwidth} % for tcolorbox
+\RequirePackage[most]{tcolorbox} 
+\RequirePackage{circledsteps} 
+\RequirePackage[framemethod=TikZ]{mdframed}
+\RequirePackage{xifthen}
+\RequirePackage{iftex}
+\RequirePackage{longtable,booktabs,array}
+\RequirePackage{caption}
+\RequirePackage{etoolbox}
+\RequirePackage{footnotehyper}
+\RequirePackage{pgfpages}
+
+% if(multirow)
+\RequirePackage{multirow}
+% endif
+
+\RequirePackage{calc} % for calculating minipage widths
+\RequirePackage{framed}
+% \RequirePackage{pifont}
+% \usepackage{caption}
+% \usepackage{hyperref}
+% \usepackage{subcaption}
+
+\RequirePackage[most]{tcolorbox}
+\tcbuselibrary{skins,xparse,breakable,fitting,listings,documentation}
+\usetikzlibrary{shadows}
+
+% ◣……………………………………………………………………………………………………………………………………◢ Fixing: fonts.text {{{1
+$if(fontfamily)$
+\usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
+$else$
+\usepackage{lmodern}
+$endif$
+$if(linestretch)$
+\usepackage{setspace}
+$endif$
+\RequirePackage{iftex}
+\RequirePackage[no-math]{fontspec}
+\RequirePackage{mathspec}
+
+% ◣………………………………………………………………………………………………………………………………◢ Fixing: after-header-includes.tex {{{1
+\RequirePackage{bookmark}
+\RequirePackage{xurl} % add URL line breaks if available
+
+% ◣………………………………………………………………………………………………………………………………◢ Fixing: graphics.tex {{{1
+\RequirePackage{graphicx}
+% ◣………………………………………………………………………………………………………………………………◢ Fixing: common.latex {{{1
+\RequirePackage{upquote}
+\RequirePackage{parskip}
+$if(listings)$
+\RequirePackage{listings}
+$endif$
+% \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts

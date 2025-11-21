@@ -1,0 +1,159 @@
+%###############################################################################
+%                                                                              #
+% Beamer color theme (LightBlue variant) for BSB template                      #
+%                                                                              #
+% Author: Georgios Pappas Jr                                                   #
+% Institute: University of Brasilia (UnB) - Brazil                             #
+%            Department of Cell Biology                                        #
+%                                                                              #
+%                                                                              #
+%###############################################################################
+%                                                                              #
+%   Created:            Thu 29 Apr 2021 11:34:38 AM -03                        #
+%   Last Modified:      Thu 29 Apr 2021 11:36:44 AM -03                        #
+%                                                                              #
+%###############################################################################
+
+\ProvidesPackage{beamercolorthemeBSBLightBlue}[2025/08/13 v1.1 BSB Beamer color theme]
+\mode<presentation>
+
+% \definecolor{FrameColor}{rgb}{0.13, 0.13, 0.65}
+
+\definecolor{DarkBlue}{cmyk}{0.7, 0.5, 0.1, 0.7}
+\definecolor{MyRed}{rgb}{0.93, 0.35, 0.35}
+\definecolor{MyGreen}{rgb}{0.37, 0.70, 0.60}
+\definecolor{MyBlue}{rgb}{0.012, 0.31, 0.45}
+\definecolor{MyCyan}{rgb}{0.08, 0.08, 1.0}
+%% General color definitions
+\definecolor{aliceblue}{rgb}{0.94, 0.97, 1.0}
+\definecolor{bisque}{rgb}{1.0, 0.89, 0.77}
+\definecolor{cadetblue}{rgb}{95,158,160}
+\definecolor{ghostwhite}{rgb}{0.97, 0.97, 1.0}
+\definecolor{cobalt}{rgb}{0.0, 0.28, 0.67} 
+
+% Some color specifications 
+\colorlet{TextColor}{black}
+\colorlet{FrameColor}{blue!20}
+\colorlet{BulletColor}{MyCyan!50}
+\colorlet{BlockColor}{CornflowerBlue!80!black}
+\colorlet{HighlightColor}{yellow!60}
+
+
+\colorlet{AlertColor}{MyRed}
+\colorlet{ExampleColor}{MyGreen}
+\colorlet{HintColor}{MyCyan}
+\colorlet{WarnColor}{Orange}
+% \colorlet{HighlightColor}{MyGreen!50}
+\colorlet{BoxTitle}{cobalt!50}
+\definecolor{CodeColor}{rgb}{0.9, 0.95, 1.0}
+
+% \usecolortheme[named=DarkBlue]{structure}%
+
+% ▶………………………………………………………………………………………………………………………………………………………… Text color {{{1
+\setbeamercolor*{normal text}{fg=TextColor}%
+
+% ▶………………………………………………………………………………………………………………………………………… Slide background {{{1
+\setbeamercolor*{background canvas}{bg=ghostwhite}%
+
+% ▶…………………………………………………………………………………………………………………………………………………… Alert colors {{{1
+% \setbeamercolor*{alerted text}{fg=MyRed!50!red}%
+% \setbeamercolor*{example text}{fg=MyGreen!50!black}%
+% Alerts
+\setbeamercolor{alerted text}{fg=AlertColor}
+\setbeamercolor{example text}{fg=ExampleColor}
+\setbeamercolor{warn text}{fg=WarnColor,bg=ghostwhite}
+\setbeamercolor{hint text}{fg=HintColor}
+
+% ▶……………………………………………………………………………………………………………………………………………………………… Palettes {{{1
+\setbeamercolor*{palette primary}{fg=DarkBlue!30!black,bg=DarkBlue!25!white}%
+\setbeamercolor*{palette secondary}{fg=DarkBlue!70!black,bg=white!60!DarkBlue}%
+\setbeamercolor*{palette tertiary}{fg=DarkBlue!80!black,bg=DarkBlue!30!white}%
+\setbeamercolor*{palette quaternary}{fg=DarkBlue,bg=white!20!DarkBlue}%
+
+% ▶…………………………………………………………………………………………………………………………………………………… Title colors {{{1
+\setbeamercolor*{title}{fg=DarkBlue!85}
+\setbeamercolor*{subtitle}{fg=DarkBlue!75}
+\setbeamercolor*{author}{fg=white!20!black}
+\setbeamercolor*{institute}{fg=white!50!black}
+\setbeamercolor*{date}{fg=black!70}
+
+
+% ▶……………………………………………………………………………………………………………………………………………………… Slide/Frame title colors {{{1
+% ┅┅┅┅┅┅┅┅┅┅┅┅┤ Slide title: these are the colors to customize it ├┅┅┅┅┅┅┅┅┅┅┅
+\colorlet{FrameTitleFG}{cyan!35}
+\colorlet{FrameTitleBG}{black!90}
+% Frame title beamer {{{2
+\setbeamercolor*{frametitle}{fg=FrameTitleFG,bg=FrameTitleBG}
+
+
+%
+% Section title {{{1
+%
+\setbeamercolor{section}{fg=green}
+\setbeamercolor*{section}{fg=red}
+\setbeamercolor{section title}{fg=green}
+
+\setbeamercolor*{section in head/foot}{parent=palette tertiary,bg=FrameColor}
+\setbeamercolor{section number projected}{parent=block title}
+% \setbeamercolor{sections/subsections in toc}{fg=red,bg=red}
+%\setbeamercolor*{section in head/foot}{parent=palette tertiary}
+
+%
+% Blocks: The color to the block title {{{1
+%
+\setbeamercolor*{block title}{fg=white,bg=BlockColor}
+\setbeamercolor*{block title alerted}{use=alerted text, fg=white, bg=AlertColor}
+\setbeamercolor*{block title example}{use=example text, fg=white, bg=ExampleColor}
+
+\setbeamercolor*{block body}{parent=normal text,use=block title,bg=block title.bg!15!white}
+\setbeamercolor*{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg!15!white}
+\setbeamercolor*{block body example}{parent=normal text,use=block title example,bg=block title example.bg!15!white}
+
+
+%
+% Footnotes {{{1
+%
+\setbeamercolor*{author in head/foot}{parent=palette tertiary}
+\setbeamercolor*{date in head/foot}{parent=palette tertiary}
+
+\setbeamercolor*{title in head/foot}{parent=palette primary}
+\setbeamercolor*{section in head/foot}{parent=palette secondary}
+\setbeamercolor*{subsection in head/foot}{parent=palette primary}
+
+%
+% Bullets color {{{1
+% 
+\setbeamercolor{item projected}{fg=BulletColor!5!white,bg=BulletColor!70!black}
+% \setbeamercolor{item projected}{parent=pallete quaternary}
+
+\setbeamercolor{itemize item}{fg=BulletColor,bg=BulletColor!10}
+\setbeamercolor{itemize subitem}{parent=itemize item}
+\setbeamercolor{itemize subsubitem}{parent=itemize item}
+
+% Lists with numbers are colored inside circles using package circledsteps
+% The pgfkeys control the circle parameters
+\colorlet{EnumerateColor}{BulletColor}
+\pgfkeys{/csteps/fill color=EnumerateColor}
+\pgfkeys{/csteps/outer color=EnumerateColor!80}
+\pgfkeys{/csteps/inner color=black!10}
+
+\setbeamercolor{enumerate item}{fg=EnumerateColor}
+\setbeamercolor{enumerate subitem}{fg=EnumerateColor!90}
+\setbeamercolor{enumerate subsubitem}{fg=EnumerateColor!80}
+
+\setbeamercolor{description item}{fg=BulletColor,bg=BulletColor!20}
+\setbeamercolor{description body}{fg=BulletColor!30!black,bg=BulletColor!20}
+\setbeamercolor{description subitem}{fg=BulletColor!90}
+
+\setbeamercolor{separation line}{fg=BulletColor}
+
+% For soul package
+\sethlcolor{HighlightColor}
+
+% ▶………………………………………………………………………………………………………………………………………… menukeys package {{{1
+\newmenucolortheme{menucolors}{named}{cobalt}{blue}{ghostwhite}
+\newmenucolortheme{keyscolors}{named}{BulletColor}{ghostwhite}{ghostwhite}
+\newmenucolortheme{pathcolors}{named}{cobalt}{blue}{cobalt}
+
+\mode
+<all>

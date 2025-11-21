@@ -1,0 +1,17 @@
+$--
+$-- tables
+$--
+% ◣………………………………………………………………………………………………………………………………◢ Partial: tables.text {{{1
+$if(beamer)$
+% Make caption package work with longtable
+\makeatletter
+\def\fnum@table{\tablename~\thetable}
+\makeatother
+$else$
+% Correct order of tables after \paragraph or \subparagraph
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\makesavenoteenv{longtable}
+$endif$

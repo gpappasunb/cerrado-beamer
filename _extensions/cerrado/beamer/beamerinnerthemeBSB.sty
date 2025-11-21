@@ -1,0 +1,149 @@
+%###############################################################################
+%                                                                              #
+% Beamer inner theme for BSB template                                          #
+%                                                                              #
+% Author: Georgios Pappas Jr                                                   #
+% Institute: University of Brasilia (UnB) - Brazil                             #
+%            Department of Cell Biology                                        #
+%                                                                              #
+%                                                                              #
+%###############################################################################
+%                                                                              #
+%   Created:            Thu 29 Apr 2021 11:34:38 AM -03                        #
+%   Last Modified:      Thu 29 Apr 2021 11:36:44 AM -03                        #
+%                                                                              #
+%###############################################################################
+
+\ProvidesPackage{beamerinnerthemeBSB}[2025/08/13 v1.1 BSB compgen Beamer inner theme]
+
+\mode<presentation>
+
+%###############################################################################
+%                                                                              #
+% Title slide customization {{{1                                               #
+%                                                                              #
+%###############################################################################
+
+\defbeamertemplate*{title page}{BSB theme} {%
+  \begin{tikzpicture}[remember picture,overlay]
+	% \fill[green!15]
+	% \shade[top color=blue!15,bottom color=green!15]
+	\shade[bottom color=blue!15,top color=green!10]
+	  ([yshift=15pt]current page.west) rectangle (current page.south east);
+  
+	% Logo
+	\node[anchor=south west] 
+	  at ([yshift=85pt]current page.west) (logo)
+	  {\parbox[t]{0.05\paperwidth}{\raggedleft%
+	    \usebeamercolor[fg]{titlegraphic}\inserttitlegraphic}};
+
+	% Author
+	\node[anchor=east] 
+	  at ([yshift=-65pt]current page.north east) (author) {
+	    \usebeamercolor[fg]{author}\usebeamerfont{author}\insertauthor
+	  };
+	  % at ([yshift=-65pt]current page.north east) (author) {\textcolor{RoyalBlue}{\textit{\insertauthor}}};
+ 
+	% 
+	% Institution
+	%
+	\node[anchor=north east] 
+	  at ([yshift=-80pt]current page.north east) (institute) {%
+		\parbox[t]{.78\paperwidth}{\raggedleft%
+		\usebeamercolor[fg]{institute}\usebeamerfont{institute}\insertinstitute}
+		};
+	    
+	% Title
+	\node[]
+	  at ([yshift=115pt]current page.south) (title) {
+	    \parbox[t]{\textwidth}{\centering%
+		\usebeamercolor[fg]{title}\usebeamerfont{title}\inserttitle
+	  }};
+	 
+	% Subtitle
+	\node[anchor=center]
+	  at ([yshift=-60pt]current page.center) (subtitle) {
+	  \usebeamercolor[fg]{subtitle}\usebeamerfont{subtitle}\insertsubtitle};
+ 
+	% Date
+	\node[anchor=south]
+	  at ([yshift=10pt]current page.south) (date) {
+	  \usebeamercolor[fg]{date}\usebeamerfont{date}\insertdate
+	  };
+	  
+  \end{tikzpicture}
+  \setbeamertemplate{footline}{}
+  % \usebeamertemplate*{footline}[plain]
+} % End of titlepage configuration
+
+  
+%
+% Enumerate symbols {{{1
+%
+
+% Bullets {{{2
+% \setbeamertemplate{itemize items}{\textleaf}
+% \setbeamertemplate{itemize item}{$\multimap$}
+% \setbeamertemplate{itemize item}{$\circledcirc$}
+\setbeamertemplate{itemize item}{$\bullet$}
+\setbeamertemplate{itemize subitem}{$\triangleright$}
+\setbeamertemplate{itemize subitem}{$\hookrightarrow$}
+\setbeamertemplate{itemize subsubitem}{$\mapsto$}
+
+
+% Numbers {{{2
+% Only the first level of a numbered list is represented inside a circle
+\setbeamertemplate{enumerate item}{\Circled{\scriptsize\insertenumlabel}}
+% \setbeamertemplate{enumerate subitem}{$\hookrightarrow$\insertsubenumlabel$)$}
+\setbeamertemplate{enumerate subitem}{\insertenumlabel.\insertsubenumlabel$)$}
+\setbeamertemplate{enumerate subsubitem}{\insertenumlabel.\insertsubenumlabel.\insertsubsubenumlabel)}
+
+% \setbeamertemplate{enumerate items}[circle]
+% \setbeamertemplate{enumerate item}{\insertenumlabel}
+
+%
+% Description environments {{{1
+%
+
+% A box to insert in the description list header
+\newtcbox{\descriptionbox}{enhanced,
+  box align=base,
+  boxsep=0pt,left=3pt,top=0.5mm,bottom=0.5mm,right=3pt,
+  boxrule=0pt,
+  arc=3pt,
+  auto outer arc,
+  colback=green!15,
+  fuzzy halo=1mm with black!25,
+  % colback=cyan!5,
+  frame hidden,
+  halign=center,
+%drop fuzzy shadow southwest=gray!50,
+  % drop small lifted shadow
+}
+
+% Adding the box to the description list header
+% Combining to a left alignment of the labels
+\defbeamertemplate{description item}
+{align left}%
+{\hfill\descriptionbox{\insertdescriptionitem}%
+}
+\setbeamertemplate{description item}[align left]
+% \defbeamertemplate{description body begin}{description frame}{\begin{tcolorbox}}
+% \setbeamertemplate{description body begin}[description frame]
+% \defbeamertemplate{description body end}{description frame}{\end{tcolorbox}}
+% \setbeamertemplate{description body end}[description frame]
+
+
+%
+% Section symbols {{{1
+%
+\setbeamertemplate{sections/subsections in toc}[ball]
+
+%
+% Blocks {{{1
+%
+\setbeamertemplate{blocks}[rounded][shadow=false]
+
+
+\mode
+<all>
